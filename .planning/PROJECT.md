@@ -34,7 +34,7 @@ Every hard question the game raises gets an answer that is both funny and correc
 - [ ] Layout works on a phone in portrait (one device passed around) and on a laptop or projector (readable from across a room)
 
 **Hard questions**
-- [ ] About one turn in three lands a player on a question space (roughly 30-35 question spaces on the path)
+- [ ] About one draw in three lands a player on a question space (roughly 40-45 question spaces on the path, per research simulation)
 - [ ] The 18 existing named, trap, shortcut and landmark spaces each carry a fixed question that fits the space (e.g. Slough of Despond: "How can I know I'm elect?"; Sea of Providence: "If the elect are predestined, why pray?")
 - [ ] New generic question spaces draw from a pool of further questions, with no repeats within a game
 - [ ] Each question is layered: a one-line satirical quip, a plain two-to-three sentence answer, and a "Go deeper" section with fuller explanation and citations
@@ -85,6 +85,12 @@ Every hard question the game raises gets an answer that is both funny and correc
 | Optional quiz with small movement bonus | Adds real decisions to play, which also undercuts the old "no decisions" fatalism joke | Pending |
 | Selectable translation: BSB, ESV, KJV, NET with link and attribution | User's choice | Pending |
 | Verification by citation checking, no human theology reviewer | User's choice | Pending |
+| True 1-in-3 question density (~40-45 spaces), enforced by seeded simulation test | User's choice after research showed 33 spaces gives ~1 in 4 | Pending |
+| Core-first pool guarantees headline questions each game | "Why pray?" space alone is reached in only ~20% of 4-player games | Pending |
+| Quiz: active player only, 3 options, +2 quiet-walk bonus capped at 132, no penalty | User's choices during requirements | Pending |
+| No family filter; heavy topics included with warm wording | User's choice | Pending |
+| Ship ESV on our reading of the "commentary" clause | User's choice; ESV notice and verse limits still enforced by tests | ⚠️ Revisit if Crossway objects |
+| Quote the original 1646/1647 Westminster Confession | User's choice; research verified refs against the American text, so section numbers need re-checking | Pending |
 | Ship as a PWA (installable, offline) | User requirement added 2026-09-29; suits phones passed around in rooms with poor Wi-Fi | Pending |
 | Switch GitHub Pages source from legacy branch to GitHub Actions | Legacy mode serves unbuilt source; repo setting change needs user go-ahead when executed | Pending |
 
