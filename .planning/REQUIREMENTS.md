@@ -105,12 +105,57 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
+| DEPL-01 | Phase 1 | Pending |
+| DEPL-02 | Phase 1 | Pending |
+| DEPL-03 | Phase 1 | Pending |
+| ENG-01 | Phase 3 | Pending |
+| ENG-02 | Phase 3 | Pending |
+| PWA-01 | Phase 2 | Pending |
+| PWA-02 | Phase 2 | Pending |
+| PWA-03 | Phase 7 | Pending |
+| PWA-04 | Phase 2 | Pending |
+| PWA-05 | Phase 7 | Pending |
+| LAY-01 | Phase 6 | Pending |
+| LAY-02 | Phase 6 | Pending |
+| LAY-03 | Phase 6 | Pending |
+| LAY-04 | Phase 6 | Pending |
+| LAY-05 | Phase 6 | Pending |
+| LAY-06 | Phase 6 | Pending |
+| QST-01 | Phase 5 | Pending |
+| QST-02 | Phase 4 | Pending |
+| QST-03 | Phase 5 | Pending |
+| QST-04 | Phase 5 | Pending |
+| QST-05 | Phase 4 | Pending |
+| QST-06 | Phase 4 | Pending |
+| QST-07 | Phase 4 | Pending |
+| QST-08 | Phase 4 | Pending |
+| QST-09 | Phase 4 | Pending |
+| QST-10 | Phase 4 | Pending |
+| QUIZ-01 | Phase 5 | Pending |
+| QUIZ-02 | Phase 5 | Pending |
+| QUIZ-03 | Phase 5 | Pending |
+| QUIZ-04 | Phase 5 | Pending |
+| QUIZ-05 | Phase 5 | Pending |
+| BIB-01 | Phase 7 | Pending |
+| BIB-02 | Phase 7 | Pending |
+| BIB-03 | Phase 7 | Pending |
+| BIB-04 | Phase 7 | Pending |
+| BIB-05 | Phase 7 | Pending |
+| BIB-06 | Phase 7 | Pending |
+| ACC-01 | Phase 4 | Pending |
+| ACC-02 | Phase 4 | Pending |
+| ACC-03 | Phase 4 | Pending |
+| ACC-04 | Phase 3 | Pending |
+| ACC-05 | Phase 3 | Pending |
+| ACC-06 | Phase 3 | Pending |
+| ACC-07 | Phase 4 | Pending |
+| ACC-08 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 45 total
-- Mapped to phases: 0
-- Unmapped: 45
+- Mapped to phases: 45
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-09-29*
-*Last updated: 2026-09-29 after initial definition*
+*Last updated: 2026-09-29 after roadmap revision (install phase inserted as Phase 2)*
