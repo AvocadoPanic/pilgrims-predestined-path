@@ -69,7 +69,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+- [2026-09-29] [ui] Game-feel UI pass with Fable 5.1 — [todo file](.planning/todos/pending/2026-09-29-game-feel-ui-pass-with-fable-5-1.md) — Needs TBD. Direction from the user:.
 
 ### Blockers/Concerns
 
