@@ -42,7 +42,7 @@ Every hard question the game raises gets an answer that is both funny and correc
 
 **Accuracy and tone**
 - [ ] Rules text, TULIP summary, taglines and end screen no longer imply fatalism; jokes are rewritten so they are still funny and doctrinally accurate (e.g. "There are no decisions" and "Play Again (as if you had a choice)")
-- [ ] Satire is aimed at Calvinists themselves; other traditions (Catholic, Arminian, Lutheran) are described fairly, and "Castle of Rome" is reframed accordingly
+- [ ] Satire is aimed mainly at Calvinists themselves, with some good-natured poking at Catholics; every tradition's actual position (Catholic, Arminian, Lutheran) is stated accurately, and the ribbing stays affectionate rather than hostile
 - [ ] Every quotation and citation (Scripture, Westminster Confession, Canons of Dort, Heidelberg Catechism, Calvin's Institutes, Augustine, Luther) is checked against a primary source, including the Calvin quote on the setup screen currently attributed to Institutes III.21.5
 - [ ] Content is suitable for children as well as adults
 
@@ -77,7 +77,7 @@ Every hard question the game raises gets an answer that is both funny and correc
 |----------|-----------|---------|
 | Deploy first, then content | User asked for it running on GitHub Pages first | Pending |
 | Satirical but accurate voice | User's choice; keeps the game's character while fixing its theology | Pending |
-| Calvinists are the butt of the satire | Mixed audience includes Catholics and outsiders; self-deprecation keeps it fair | Pending |
+| Calvinists are the main butt of the satire; good-natured pokes at Catholics allowed | Mixed audience includes Catholics and outsiders; user added on 2026-09-29 that Catholics can be ribbed if good-natured | Pending |
 | Rewrite fatalist jokes rather than annotate them | User's choice; Reformed confessions reject fatalism (WCF 3.1) | Pending |
 | Hybrid question mapping: 18 fixed themed spaces plus a pool for new spaces | Keeps thematic links (Slough = assurance) and gives replay variety | Pending |
 | Layered answers: quip, plain answer, "Go deeper" | One format serves kids, outsiders and seminary grads | Pending |
