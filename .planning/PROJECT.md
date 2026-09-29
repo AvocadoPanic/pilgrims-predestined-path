@@ -30,6 +30,7 @@ Every hard question the game raises gets an answer that is both funny and correc
 **Get it running**
 - [ ] The game builds with Vite and loads without errors (fix missing `./App` import, add the React plugin, React 18 root API)
 - [ ] The game is live at https://avocadopanic.github.io/pilgrims-predestined-path/, deployed by a working GitHub Actions workflow on push to `main`
+- [ ] The game is a PWA: installable to a phone or desktop home screen and fully playable offline after the first visit (Bible text and content bundled), with players getting the new version after a deploy rather than a stale cached build
 - [ ] Layout works on a phone in portrait (one device passed around) and on a laptop or projector (readable from across a room)
 
 **Hard questions**
@@ -84,6 +85,7 @@ Every hard question the game raises gets an answer that is both funny and correc
 | Optional quiz with small movement bonus | Adds real decisions to play, which also undercuts the old "no decisions" fatalism joke | Pending |
 | Selectable translation: BSB, ESV, KJV, NET with link and attribution | User's choice | Pending |
 | Verification by citation checking, no human theology reviewer | User's choice | Pending |
+| Ship as a PWA (installable, offline) | User requirement added 2026-09-29; suits phones passed around in rooms with poor Wi-Fi | Pending |
 | Switch GitHub Pages source from legacy branch to GitHub Actions | Legacy mode serves unbuilt source; repo setting change needs user go-ahead when executed | Pending |
 
 ## Evolution
