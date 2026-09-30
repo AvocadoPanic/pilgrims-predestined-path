@@ -1,0 +1,5 @@
+/* Self-hosted EB Garamond (latin, woff2 only). Bare-specifier url() resolves in dev and build. */
+@font-face{font-family:'EB Garamond';font-style:normal;font-weight:400;font-display:swap;src:url(@fontsource/eb-garamond/files/eb-garamond-latin-400-normal.woff2) format('woff2');}
+@font-face{font-family:'EB Garamond';font-style:italic;font-weight:400;font-display:swap;src:url(@fontsource/eb-garamond/files/eb-garamond-latin-400-italic.woff2) format('woff2');}
+@font-face{font-family:'EB Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(@fontsource/eb-garamond/files/eb-garamond-latin-600-normal.woff2) format('woff2');}
+@font-face{font-family:'EB Garamond';font-style:normal;font-weight:700;font-display:swap;src:url(@fontsource/eb-garamond/files/eb-garamond-latin-700-normal.woff2) format('woff2');}

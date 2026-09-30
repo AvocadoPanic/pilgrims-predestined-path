@@ -388,7 +388,6 @@ export default function App(){
   /* ─── SETUP ─── */
   if(phase==="setup")return(
     <div style={{minHeight:"100vh",background:"linear-gradient(170deg,#0a0608,#1a0e16,#0a0a12)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"24px 16px",fontFamily:"'EB Garamond',Georgia,serif"}}>
-      <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
       <div style={{textAlign:"center",maxWidth:"500px",width:"100%"}}>
         <div style={{fontSize:"42px",color:"#daa520",marginBottom:"4px"}}>✠</div>
         <h1 style={{fontSize:"clamp(24px,5vw,36px)",color:"#f0e6d3",fontWeight:700,lineHeight:1.1,margin:"0 0 4px"}}>The Pilgrim's<br/>Predestined Path</h1>
@@ -426,7 +425,6 @@ export default function App(){
   /* ─── PLAY/END ─── */
   return(
     <div style={{minHeight:"100vh",background:"linear-gradient(170deg,#0a0608,#1a0e16,#0a0a12)",fontFamily:"'EB Garamond',Georgia,serif",padding:"8px",display:"flex",flexDirection:"column",gap:"6px"}}>
-      <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
       <div style={{textAlign:"center"}}>
         <h1 style={{fontSize:"15px",color:"#f0e6d3",margin:0}}>✠ The Pilgrim's Predestined Path ✠</h1>
       </div>
