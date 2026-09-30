@@ -4,8 +4,8 @@ title: Game-feel UI pass with Fable 5.1
 area: ui
 severity: cosmetic
 files:
-  - pilgrims-predestined-path.jsx:91-302 (SVGBoard, CardView; moves to src/App.jsx in Phase 1)
-  - pilgrims-predestined-path.jsx:389-481 (setup, play and end screens)
+  - src/App.jsx:91-302 (SVGBoard, CardView; moved from pilgrims-predestined-path.jsx in Phase 1)
+  - src/App.jsx:389-479 (setup, play and end screens)
 ---
 
 ## Problem
@@ -15,6 +15,8 @@ The game works but looks like a functional prototype: inline styles, flat colors
 User's words: "this is a game, the ui should be engaging, exciting using design principles, color advanced techniques and perhaps feature sound effects, etc."
 
 Severity is cosmetic (no bug), but the ambition is high: it should feel like a game, not a form.
+
+2026-09-30, after Phase 1 went live: the user checked https://avocadopanic.github.io/pilgrims-predestined-path/ on desktop. User's words: "It looks ok. Very small and difficult to read on desktop. Maybe save this for the future UI review." The board and text need to scale up to use a desktop viewport (related: LAY-03 Large text, LAY-02 projector). Code review IN-04 (01-REVIEW.md) also notes the default 8px body margin under a `min-height:100vh` root gives a permanent scrollbar and a white gutter.
 
 ## Solution
 
