@@ -36,7 +36,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. A push to `main` runs the tests, builds and deploys through GitHub Actions with no manual step, and a failing test stops the deploy.
   4. The live page loads every script, style, font and icon from under `/pilgrims-predestined-path/` with no 404s and makes no requests to fonts.googleapis.com.
 
-**Plans:** 4/5 plans executed
+**Plans:** 5/5 plans executed
 
 Plans:
 **Wave 1**
@@ -54,7 +54,7 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] 01-05-PLAN.md - STOP 2 go-ahead, then switch Pages to Actions, redeploy and verify the live game
+- [x] 01-05-PLAN.md - STOP 2 go-ahead, then switch Pages to Actions, redeploy and verify the live game
 
 **UI hint**: no
 
@@ -214,7 +214,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Live on GitHub Pages | 4/5 | In Progress|  |
+| 1. Live on GitHub Pages | 5/5 | In Progress|  |
 | 2. Installable, With Safe Updates | 0/TBD | Not started | - |
 | 3. Honest Copy on a Tested Engine | 0/TBD | Not started | - |
 | 4. Hard Questions on the Special Spaces | 0/TBD | Not started | - |

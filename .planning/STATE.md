@@ -2,17 +2,17 @@
 gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: Live on GitHub Pages
-status: executing
-stopped_at: Completed 01-04-PLAN.md
-last_updated: "2026-09-30T21:22:15.187Z"
+status: verifying
+stopped_at: Completed 01-05-PLAN.md
+last_updated: "2026-09-30T21:29:36.056Z"
 last_activity: 2026-09-29
 last_activity_desc: Phase 01 execution started
-state_head: 8e6dc30c7dce9fdc573decf8ad30ada4ec90de51
+state_head: 39bb07f0658eff70af6622b25b008b9fe0a71f73
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 5
-  completed_plans: 4
+  completed_plans: 5
   percent: 0
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-09-29)
 
 Phase: 01 (Live on GitHub Pages) — EXECUTING
 Plan: 5 of 5
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-09-29 — Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -62,6 +62,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P02 | 4 min | 2 tasks | 7 files |
 | Phase 01 P03 | 2 min | 2 tasks | 4 files |
 | Phase 01 P04 | 15min | 2 tasks | 0 files |
+| Phase 01 P05 | 5 min | 2 tasks | 0 files |
 
 ## Accumulated Context
 
@@ -81,6 +82,7 @@ Recent decisions affecting current work:
 - [Phase 01]: Deploy workflow keeps the live smoke check; actions SHA-pinned, Node 24, PAGE_URL passed via env
 - [Phase 01]: 01-04: user answered 'push-now, commit config'; main pushed (8e6dc30) with config commit; Pages settings untouched
 - [Phase 01]: 01-04: first deploy.yml run passed all steps incl. deploy-pages under legacy Pages source (A1 not as predicted); live URL still serves raw source, recheck in 01-05
+- [Phase 01]: Pages source switched to GitHub Actions (build_type workflow) only after the user's verbatim flip-now; deployed via workflow_dispatch run 36779326540; live site verified; no rollback needed
 
 ### Pending Todos
 
@@ -102,6 +104,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-30T21:22:15.110Z
-Stopped at: Completed 01-04-PLAN.md
+Last session: 2026-09-30T21:29:35.910Z
+Stopped at: Completed 01-05-PLAN.md
 Resume file: None
