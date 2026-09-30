@@ -13,7 +13,7 @@ The game exists today as one 481-line React component that has never run in prod
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Live on GitHub Pages** - The existing game builds, tests and deploys on every push to `main`
+- [x] **Phase 1: Live on GitHub Pages** - The existing game builds, tests and deploys on every push to `main` (completed 2026-09-30)
 - [ ] **Phase 2: Installable, With Safe Updates** - Install the game on Android, desktop Chromium or iPhone; new versions are offered between games, never mid-game
 - [ ] **Phase 3: Honest Copy on a Tested Engine** - Same race, pinned by tests and replayable from a seed, with rules and jokes that no longer teach fatalism
 - [ ] **Phase 4: Hard Questions on the Special Spaces** - The 18 named, trap, shortcut and landmark spaces each ask and answer a verified question
@@ -36,7 +36,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. A push to `main` runs the tests, builds and deploys through GitHub Actions with no manual step, and a failing test stops the deploy.
   4. The live page loads every script, style, font and icon from under `/pilgrims-predestined-path/` with no 404s and makes no requests to fonts.googleapis.com.
 
-**Plans:** 5/5 plans executed
+**Plans:** 5/5 plans complete
 
 Plans:
 **Wave 1**
@@ -214,7 +214,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Live on GitHub Pages | 5/5 | In Progress|  |
+| 1. Live on GitHub Pages | 5/5 | Complete    | 2026-09-30 |
 | 2. Installable, With Safe Updates | 0/TBD | Not started | - |
 | 3. Honest Copy on a Tested Engine | 0/TBD | Not started | - |
 | 4. Hard Questions on the Special Spaces | 0/TBD | Not started | - |

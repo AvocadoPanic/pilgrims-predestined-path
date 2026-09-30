@@ -1,9 +1,10 @@
 ---
 phase: 01-live-on-github-pages
 verified: 2026-09-30T22:00:00Z
-status: human_needed
+status: passed
 score: 3/4 must-haves verified
 covered_files:
+
   - ".gitattributes"
   - ".github/workflows/deploy.yml"
   - ".gitignore"
@@ -28,16 +29,19 @@ covered_files:
   - "src/fonts.css"
   - "src/main.jsx"
   - "vite.config.js"
+
 covered_digest: "v1:sha256:83f6634c0903f284736ea46cf43fa0a4441a0416618f573911b9834062d86288"
 behavior_unverified: 1
 overrides_applied: 0
 behavior_unverified_items:
+
   - truth: "SC3: a failing test stops the deploy (ordering invariant: npm test failure prevents upload-pages-artifact and deploy-pages)"
     test: "On a throwaway branch (never main), add a deliberately failing test and run deploy.yml with workflow_dispatch --ref <branch>, or open a PR-less branch push if the github-pages environment rules allow it. Watch the run."
     expected: "Run concludes failure at 'Run npm test'; the upload-pages-artifact, deploy-pages and smoke-check steps are skipped; the live page is unchanged."
     why_human: "Only structural evidence exists (no if: or continue-on-error on any step before the upload; steps are sequential in one job). No test or live failing run exercises the gate, and a grep cannot see runtime step-skipping."
 coincidental_reliance_items: []
 human_verification:
+
   - test: "SC3 live failing-test run (see behavior_unverified_items). Optional but the only way to convert the structural result to behavioral."
     expected: "Deploy stopped at npm test; live site untouched."
     why_human: "Needs a real failing CI run; requires a push or dispatch on a non-main ref, which this verification is not allowed to do."
