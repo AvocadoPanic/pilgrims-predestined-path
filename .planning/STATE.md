@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: Live on GitHub Pages
 status: executing
-stopped_at: Completed 01-03-PLAN.md
-last_updated: "2026-09-30T06:48:15.139Z"
+stopped_at: Completed 01-04-PLAN.md
+last_updated: "2026-09-30T21:22:15.187Z"
 last_activity: 2026-09-29
 last_activity_desc: Phase 01 execution started
-state_head: 592ec7ae29e30cac56b61e01de58ef9f86e2e448
+state_head: 8e6dc30c7dce9fdc573decf8ad30ada4ec90de51
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 5
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-09-29)
 ## Current Position
 
 Phase: 01 (Live on GitHub Pages) — EXECUTING
-Plan: 4 of 5
+Plan: 5 of 5
 Status: Ready to execute
 Last activity: 2026-09-29 — Phase 01 execution started
 
@@ -61,6 +61,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P01 | 2 min | 2 tasks | 8 files |
 | Phase 01 P02 | 4 min | 2 tasks | 7 files |
 | Phase 01 P03 | 2 min | 2 tasks | 4 files |
+| Phase 01 P04 | 15min | 2 tasks | 0 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,8 @@ Recent decisions affecting current work:
 - [Phase 01]: D-04: favicon linked as %BASE_URL%favicon.svg (Vite rewrites it under the base; a bare relative path is not rewritten and fails the build-output gate) — Keeps every built reference under /pilgrims-predestined-path/
 - [Phase 01]: EB Garamond self-hosted via own woff2-only fonts.css over @fontsource files (four files, no .woff duplicates) — Avoids dead weight in dist and Phase 2 precache
 - [Phase 01]: Deploy workflow keeps the live smoke check; actions SHA-pinned, Node 24, PAGE_URL passed via env
+- [Phase 01]: 01-04: user answered 'push-now, commit config'; main pushed (8e6dc30) with config commit; Pages settings untouched
+- [Phase 01]: 01-04: first deploy.yml run passed all steps incl. deploy-pages under legacy Pages source (A1 not as predicted); live URL still serves raw source, recheck in 01-05
 
 ### Pending Todos
 
@@ -99,6 +102,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-30T06:48:15.084Z
-Stopped at: Completed 01-03-PLAN.md
+Last session: 2026-09-30T21:22:15.110Z
+Stopped at: Completed 01-04-PLAN.md
 Resume file: None
