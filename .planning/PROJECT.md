@@ -22,14 +22,14 @@ Every hard question the game raises gets an answer that is both funny and correc
 - ✓ Shortcut spaces: The Narrow Way (48 to 60) and Path of Election (85 to 97) (existing)
 - ✓ Named character and landmark spaces with one-line descriptions (existing)
 - ✓ Turn rotation, deck rebuild when low, "Book of Life" event log, victory at space 133 (existing)
+- ✓ The game builds with Vite and loads without errors (component moved to `src/App.jsx`, React plugin added; shipped on React 19 with `createRoot` in `StrictMode` and Vite 8 rather than React 18), Phase 1
+- ✓ The game is live at https://avocadopanic.github.io/pilgrims-predestined-path/, deployed by a working GitHub Actions workflow on push to `main` (tests gate the deploy; fonts self-hosted, no Google requests), Phase 1
 
 ### Active
 
 <!-- Current scope. Hypotheses until shipped. -->
 
 **Get it running**
-- [ ] The game builds with Vite and loads without errors (fix missing `./App` import, add the React plugin, React 18 root API)
-- [ ] The game is live at https://avocadopanic.github.io/pilgrims-predestined-path/, deployed by a working GitHub Actions workflow on push to `main`
 - [ ] The game is a PWA: installable to a phone or desktop home screen and fully playable offline after the first visit (Bible text and content bundled), with players getting the new version after a deploy rather than a stale cached build
 - [ ] Layout works on a phone in portrait (one device passed around) and on a laptop or projector (readable from across a room)
 
@@ -58,8 +58,9 @@ Every hard question the game raises gets an answer that is both funny and correc
 
 ## Context
 
-- **Codebase:** one 481-line React component, `pilgrims-predestined-path.jsx`, at the repo root, holding all state, logic, SVG rendering and inline styles. `src/main.jsx` imports a nonexistent `./App` and uses `ReactDOM.render`. `vite.config.js` sets `base: '/pilgrims-predestined-path/'` but has no React plugin. No `.gitignore`, no lockfile, no tests, no linting. Full map in `.planning/codebase/`.
-- **Deployment today:** GitHub Pages is enabled on AvocadoPanic/pilgrims-predestined-path in legacy mode (branch `main`, path `/`), so it serves the unbuilt `index.html`. `.github/workflows/deploy.yml` contains literal `\n` sequences (invalid YAML), has no build step and publishes `./docs` rather than Vite's `./dist`.
+- **Codebase (after Phase 1):** one 479-line React component, `src/App.jsx` (moved unchanged from `pilgrims-predestined-path.jsx` apart from dropping the Google Fonts links), holding all state, logic, SVG rendering and inline styles. `src/main.jsx` mounts it with `createRoot` inside `StrictMode`; `src/fonts.css` self-hosts EB Garamond from `@fontsource/eb-garamond`. React ^19.3.0, Vite ^8.3.1 with `@vitejs/plugin-react`, Vitest ^5.0.2 (smoke test plus a build-output gate), committed `package-lock.json` installed with `npm ci`, `.gitattributes` forcing LF. No linting yet. The map in `.planning/codebase/` predates some of this (the drift gate flags it).
+- **Deployment (after Phase 1):** GitHub Pages source is GitHub Actions (`build_type: workflow`, switched 2026-09-30). `.github/workflows/deploy.yml` runs on push to `main` and manual dispatch: `npm ci`, `npm test`, `npm run build`, then SHA-pinned official Pages actions and a live smoke check. A failing test stops the deploy by step order (verified structurally, not yet by a live failing run).
+- **Known UI issue:** on desktop the game is very small and hard to read (user feedback 2026-09-30); logged in the Game-feel UI pass todo and covered by the layout requirement.
 - **Mechanics that shape question placement:** named character spaces are colored pink and can only be reached by the 6 character cards; color cards never land on them. Trap spaces take the color they require, so color cards can land on them. With the current layout a player hits roughly 3 special spaces per game.
 - **Theology anchor for the headline question:** Westminster Confession 3.1 (the decree does no "violence ... to the will of the creatures", nor takes away "the liberty or contingency of second causes") and 5.2-5.3 (God ordinarily works through means) are the Reformed answer to "why pray?": God ordains the means along with the ends. This is also why the fatalist jokes are inaccurate.
 - **Existing text needing review:** the setup TULIP list glosses Limited Atonement as "Not every pilgrim reaches Glory" (that describes reprobation, not particular redemption); the end screen says "The others were never going to arrive".
@@ -76,7 +77,7 @@ Every hard question the game raises gets an answer that is both funny and correc
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Deploy first, then content | User asked for it running on GitHub Pages first | Pending |
+| Deploy first, then content | User asked for it running on GitHub Pages first | ✓ Live 2026-09-30 (Phase 1) |
 | Satirical but accurate voice | User's choice; keeps the game's character while fixing its theology | Pending |
 | Calvinists are the main butt of the satire; good-natured pokes at Catholics allowed | Mixed audience includes Catholics and outsiders; user added on 2026-09-29 that Catholics can be ribbed if good-natured | Pending |
 | Rewrite fatalist jokes rather than annotate them | User's choice; Reformed confessions reject fatalism (WCF 3.1) | Pending |
@@ -92,7 +93,11 @@ Every hard question the game raises gets an answer that is both funny and correc
 | Ship ESV on our reading of the "commentary" clause | User's choice; ESV notice and verse limits still enforced by tests | ⚠️ Revisit if Crossway objects |
 | Quote the original 1646/1647 Westminster Confession | User's choice; research verified refs against the American text, so section numbers need re-checking | Pending |
 | Ship as a PWA (installable, offline) | User requirement added 2026-09-29; suits phones passed around in rooms with poor Wi-Fi | Pending |
-| Switch GitHub Pages source from legacy branch to GitHub Actions | Legacy mode serves unbuilt source; repo setting change needs user go-ahead when executed | Pending |
+| Switch GitHub Pages source from legacy branch to GitHub Actions | Legacy mode serves unbuilt source; repo setting change needs user go-ahead when executed | ✓ Switched 2026-09-30 on the user's "flip-now"; legacy build had kept serving raw source even after a green Actions deploy |
+| React 19 + Vite 8 instead of React 18 (D-01) | Current majors; pins vetted at a package-legitimacy gate before the first install | ✓ Phase 1; Windows lockfile works under Linux `npm ci` |
+| Self-host EB Garamond via @fontsource | Removes the per-visitor request to Google and suits offline play later | ✓ Phase 1 |
+| Commit phase work directly on `main` (`git.allow_default_branch_commits: true`) | User's choice when the executor's protected-branch guard halted; deploys come from pushing `main` | ✓ Phase 1 |
+| Release pushes behind an explicit go-ahead | User consent gates (STOP 1 push, STOP 2 Pages switch) worked as planned | ✓ Phase 1; keep for future pushes |
 
 ## Evolution
 
@@ -112,4 +117,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-29 after initialization*
+*Last updated: 2026-09-30 after Phase 1*

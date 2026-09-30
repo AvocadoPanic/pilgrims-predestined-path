@@ -20,9 +20,10 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-29)
+See: .planning/PROJECT.md (updated 2026-09-30)
 
 **Core value:** Every hard question the game raises gets an answer that is both funny and correct, with Scripture and confession citations anyone can check.
+**Current focus:** Phase 2: Installable, With Safe Updates
 **Current focus:** Phase 01 — Live on GitHub Pages
 
 ## Current Position
@@ -90,7 +91,9 @@ Recent decisions affecting current work:
 
 ### Blockers/Concerns
 
-- [Phase 1]: Switching the GitHub Pages source from legacy branch to GitHub Actions needs the user's explicit go-ahead at execution time.
+- [Phase 1]: Code review warnings open: WR-01 (no test proves the fonts are bundled) and WR-02 (`cancel-in-progress: true` can cancel a deploy mid-run); see 01-REVIEW.md, fix with `/gsd-code-review 01 --fix`.
+- [Phase 1]: "A failing test stops the deploy" is verified by step order only, not by a live failing run; 4 of 6 UAT checks were waived by the user at phase close (01-UAT.md).
+- [Phase 1]: `.planning/codebase/` map predates Phase 1 (drift gate advisory); refresh with `/gsd-map-codebase` before planning leans on it.
 - [Phase 4]: Public-domain Heidelberg Catechism and Luther (Cole) texts not yet located; WCF references must be re-checked against the 1646/1647 original.
 - [Phase 7]: ESV ships on our reading of Crossway's "commentary" clause; revisit if Crossway objects.
 
