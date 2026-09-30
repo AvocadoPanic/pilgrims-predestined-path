@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: Live on GitHub Pages
 status: executing
-stopped_at: Completed 01-01-PLAN.md
-last_updated: "2026-09-30T06:38:01.595Z"
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-09-30T06:44:42.637Z"
 last_activity: 2026-09-29
 last_activity_desc: Phase 01 execution started
-state_head: 2943951396df7cdacfbbed742e820b2ae63e06b0
+state_head: 58c1186749931c6d6a1beb87cc1ee86f8e9f165d
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 5
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-09-29)
 ## Current Position
 
 Phase: 01 (Live on GitHub Pages) — EXECUTING
-Plan: 2 of 5
+Plan: 3 of 5
 Status: Ready to execute
 Last activity: 2026-09-29 — Phase 01 execution started
 
@@ -59,6 +59,7 @@ Progress: [░░░░░░░░░░] 0%
 | Plan | Duration | Tasks | Files |
 |------|----------|-------|-------|
 | Phase 01 P01 | 2 min | 2 tasks | 8 files |
+| Phase 01 P02 | 4 min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,8 @@ Recent decisions affecting current work:
 - [Roadmap]: Service worker uses `registerType: 'prompt'` and is live from Phase 2; verification for Phases 3 to 7 includes a two-deploy update check (new version offered, not stale; no reload mid-game).
 - [Phase 01]: 01-01: react and react-dom pinned ^19.3.0 (user approved Task 1 gate: 'approved') — Package legitimacy gate passed; registry showed no postinstall scripts
 - [Phase 01]: 01-01: git.allow_default_branch_commits=true; commits land on main — User chose 'Allow commits on main (Recommended)' after protected-branch HEAD guard halted executors
+- [Phase 01]: D-04: favicon linked as %BASE_URL%favicon.svg (Vite rewrites it under the base; a bare relative path is not rewritten and fails the build-output gate) — Keeps every built reference under /pilgrims-predestined-path/
+- [Phase 01]: EB Garamond self-hosted via own woff2-only fonts.css over @fontsource files (four files, no .woff duplicates) — Avoids dead weight in dist and Phase 2 precache
 
 ### Pending Todos
 
@@ -94,6 +97,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-30T06:38:01.541Z
-Stopped at: Completed 01-01-PLAN.md
+Last session: 2026-09-30T06:44:42.580Z
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None

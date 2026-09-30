@@ -9,7 +9,7 @@ Requirements for the initial release. Each maps to a roadmap phase.
 
 ### Deploy
 
-- [ ] **DEPL-01**: Player can open the game locally from `npm run dev` and a production build (`npm run build` then `npm run preview`) with no console errors
+- [x] **DEPL-01**: Player can open the game locally from `npm run dev` and a production build (`npm run build` then `npm run preview`) with no console errors
 - [ ] **DEPL-02**: Player can open the live game at https://avocadopanic.github.io/pilgrims-predestined-path/; every push to `main` runs tests, builds and deploys through GitHub Actions (Pages source switched to Actions only with the user's go-ahead)
 - [ ] **DEPL-03**: Every asset the page references (scripts, icons, fonts, manifest) loads under the `/pilgrims-predestined-path/` base path with no 404s
 
@@ -105,7 +105,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DEPL-01 | Phase 1 | Pending |
+| DEPL-01 | Phase 1 | Complete |
 | DEPL-02 | Phase 1 | Pending |
 | DEPL-03 | Phase 1 | Pending |
 | ENG-01 | Phase 3 | Pending |
@@ -152,6 +152,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ACC-08 | Phase 4 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 45 total
 - Mapped to phases: 45
 - Unmapped: 0
