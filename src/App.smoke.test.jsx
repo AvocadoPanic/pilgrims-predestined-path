@@ -6,5 +6,6 @@ describe('App smoke', () => {
   it('renders the setup screen without throwing', () => {
     const html = renderToString(<App />);
     expect(html).toContain('Predestined Path');
+    expect(html).not.toContain('fonts.googleapis.com');
   });
 });
