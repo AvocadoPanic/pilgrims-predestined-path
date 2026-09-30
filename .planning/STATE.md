@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: Live on GitHub Pages
 status: executing
-stopped_at: Completed 01-02-PLAN.md
-last_updated: "2026-09-30T06:44:42.637Z"
+stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-09-30T06:48:15.139Z"
 last_activity: 2026-09-29
 last_activity_desc: Phase 01 execution started
-state_head: 58c1186749931c6d6a1beb87cc1ee86f8e9f165d
+state_head: 592ec7ae29e30cac56b61e01de58ef9f86e2e448
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 5
-  completed_plans: 2
+  completed_plans: 3
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-09-29)
 ## Current Position
 
 Phase: 01 (Live on GitHub Pages) — EXECUTING
-Plan: 3 of 5
+Plan: 4 of 5
 Status: Ready to execute
 Last activity: 2026-09-29 — Phase 01 execution started
 
@@ -60,6 +60,7 @@ Progress: [░░░░░░░░░░] 0%
 |------|----------|-------|-------|
 | Phase 01 P01 | 2 min | 2 tasks | 8 files |
 | Phase 01 P02 | 4 min | 2 tasks | 7 files |
+| Phase 01 P03 | 2 min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,7 @@ Recent decisions affecting current work:
 - [Phase 01]: 01-01: git.allow_default_branch_commits=true; commits land on main — User chose 'Allow commits on main (Recommended)' after protected-branch HEAD guard halted executors
 - [Phase 01]: D-04: favicon linked as %BASE_URL%favicon.svg (Vite rewrites it under the base; a bare relative path is not rewritten and fails the build-output gate) — Keeps every built reference under /pilgrims-predestined-path/
 - [Phase 01]: EB Garamond self-hosted via own woff2-only fonts.css over @fontsource files (four files, no .woff duplicates) — Avoids dead weight in dist and Phase 2 precache
+- [Phase 01]: Deploy workflow keeps the live smoke check; actions SHA-pinned, Node 24, PAGE_URL passed via env
 
 ### Pending Todos
 
@@ -97,6 +99,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-30T06:44:42.580Z
-Stopped at: Completed 01-02-PLAN.md
+Last session: 2026-09-30T06:48:15.084Z
+Stopped at: Completed 01-03-PLAN.md
 Resume file: None
