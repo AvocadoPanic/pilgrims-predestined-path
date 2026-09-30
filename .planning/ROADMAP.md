@@ -36,12 +36,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. A push to `main` runs the tests, builds and deploys through GitHub Actions with no manual step, and a failing test stops the deploy.
   4. The live page loads every script, style, font and icon from under `/pilgrims-predestined-path/` with no 404s and makes no requests to fonts.googleapis.com.
 
-**Plans:** 5 plans
+**Plans:** 1/5 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md - Walking skeleton: package legitimacy gate, then the tracer (React 19 + Vite 8 build served under the base path, smoke-tested)
+- [x] 01-01-PLAN.md - Walking skeleton: package legitimacy gate, then the tracer (React 19 + Vite 8 build served under the base path, smoke-tested)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -214,7 +214,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Live on GitHub Pages | 0/TBD | Not started | - |
+| 1. Live on GitHub Pages | 1/5 | In Progress|  |
 | 2. Installable, With Safe Updates | 0/TBD | Not started | - |
 | 3. Honest Copy on a Tested Engine | 0/TBD | Not started | - |
 | 4. Hard Questions on the Special Spaces | 0/TBD | Not started | - |

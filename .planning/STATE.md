@@ -1,18 +1,18 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 1
+current_phase: 01
 current_phase_name: Live on GitHub Pages
 status: executing
-stopped_at: Phase 1 context gathered
-last_updated: "2026-09-30T02:24:28.664Z"
+stopped_at: Completed 01-01-PLAN.md
+last_updated: "2026-09-30T06:38:01.595Z"
 last_activity: 2026-09-29
-last_activity_desc: "Roadmap revised: install phase inserted as Phase 2 (7 phases, 45 of 45 v1 requirements mapped)"
-state_head: b8e3f9a980e6bb1fe44e4a9d46334a11aaf368e2
+last_activity_desc: Phase 01 execution started
+state_head: 2943951396df7cdacfbbed742e820b2ae63e06b0
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 5
-  completed_plans: 0
+  completed_plans: 1
   percent: 0
 ---
 
@@ -23,14 +23,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-29)
 
 **Core value:** Every hard question the game raises gets an answer that is both funny and correct, with Scripture and confession citations anyone can check.
-**Current focus:** Phase 1: Live on GitHub Pages
+**Current focus:** Phase 01 — Live on GitHub Pages
 
 ## Current Position
 
-Phase: 1 (Live on GitHub Pages) — READY TO EXECUTE
-Plan: 0 of TBD in current phase
+Phase: 01 (Live on GitHub Pages) — EXECUTING
+Plan: 2 of 5
 Status: Ready to execute
-Last activity: 2026-09-29 - Roadmap revised: install phase inserted as Phase 2 (7 phases, 45 of 45 v1 requirements mapped)
+Last activity: 2026-09-29 — Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -54,6 +54,11 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+**Per-Plan Metrics:**
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 01 P01 | 2 min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -66,6 +71,8 @@ Recent decisions affecting current work:
 - [Roadmap]: Verification pipeline (ACC-01..03) ships with the 18 fixed questions in Phase 4, before bulk pool authoring in Phase 5.
 - [Roadmap]: Install and safe updates (PWA-01, PWA-02, PWA-04) moved to Phase 2 at the user's request ("Approve, install early"); offline completeness and the offline notice (PWA-03, PWA-05) stay in Phase 7 with translations so the offline check covers all content, verses and credits.
 - [Roadmap]: Service worker uses `registerType: 'prompt'` and is live from Phase 2; verification for Phases 3 to 7 includes a two-deploy update check (new version offered, not stale; no reload mid-game).
+- [Phase 01]: 01-01: react and react-dom pinned ^19.3.0 (user approved Task 1 gate: 'approved') — Package legitimacy gate passed; registry showed no postinstall scripts
+- [Phase 01]: 01-01: git.allow_default_branch_commits=true; commits land on main — User chose 'Allow commits on main (Recommended)' after protected-branch HEAD guard halted executors
 
 ### Pending Todos
 
@@ -87,6 +94,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-29T23:41:37.948Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-live-on-github-pages/01-CONTEXT.md
+Last session: 2026-09-30T06:38:01.541Z
+Stopped at: Completed 01-01-PLAN.md
+Resume file: None
