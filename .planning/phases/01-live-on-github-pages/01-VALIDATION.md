@@ -40,7 +40,16 @@ created: "2026-09-29"
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| (filled by planner / validate-phase) | | | | | | | | | ⬜ pending |
+| 01-01-T1 | 01 | 1 | DEPL-01 | T-01-SC | No install before the user approves; no package has a postinstall script | registry evidence (checkpoint) | `npm view` loop over the 7 pinned packages | n/a | ⬜ pending |
+| 01-01-T2 (tracer) | 01 | 1 | DEPL-01, DEPL-03 | T-01-01, T-01-02, T-01-03 | Files staged by name; `.env*` ignored; LF endings | unit + build + preview probe | `npm test`; `npm run build`; node preview probe printing "TRACER OK" | created here (Wave 0) | ⬜ pending |
+| 01-02-T1 | 02 | 2 | DEPL-01, DEPL-03 | T-01-04 | No Google Fonts request from the rendered app | unit + build | `npx vitest run src/App.smoke.test.jsx`; build emits 4 woff2, no woff | yes (01-01) | ⬜ pending |
+| 01-02-T2 | 02 | 2 | DEPL-01, DEPL-03 | T-01-05, T-01-07 | Favicon holds no script; scratch tool never tracked | build-output + scripted browser | `npx vitest run src/build-output.test.js`; `npm test`; play.mjs on preview (2, 3, 4) and dev (2, 4) | created here (Wave 0) | ⬜ pending |
+| 01-03-T1 | 03 | 2 | DEPL-02 | T-01-09, T-01-10, T-01-11, T-01-12 | SHA-pinned actions, least-privilege token, test before upload, page URL via env | structural | Python workflow check printing "workflow ok"; zero-test pass-through check | n/a | ⬜ pending |
+| 01-03-T2 | 03 | 2 | (D-03) | none | none | docs check | grep check printing "docs match shipped stack" | n/a | ⬜ pending |
+| 01-04-T1 | 04 | 3 | DEPL-02 | T-01-15, T-01-16 | Push only on the user's push-now | evidence (checkpoint) | `git log --oneline origin/main..main` | n/a | ⬜ pending |
+| 01-04-T2 | 04 | 3 | DEPL-02 | T-01-15, T-01-16, T-01-17, T-01-18 | Gate on the exact commit before pushing; no destructive recovery without a go-ahead | release gate + CI | pre-push gate; origin/main equals main; `gh run view` step conclusions print `true` | n/a | ⬜ pending |
+| 01-05-T1 | 05 | 4 | DEPL-02 | T-01-19 | Pages source changes only on flip-now or flipped | evidence (checkpoint) | `gh api .../pages --jq` build type, branch, path | n/a | ⬜ pending |
+| 01-05-T2 | 05 | 4 | DEPL-02, DEPL-03 | T-01-19 to T-01-23 | No third-party requests on the live page; deploy from main only | live checks + scripted browser + human check | build_type is `workflow`; `gh run watch --exit-status`; live asset check; no-trailing-slash check; play.mjs live (2, 3, 4) | n/a | ⬜ pending |
 
 Requirement-level map (from 01-RESEARCH.md § Validation Architecture):
 

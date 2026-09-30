@@ -481,16 +481,16 @@ A drawn path, not a `<text>` glyph, because a favicon renders without the page's
 | A5 | `npm ci` on `ubuntu-latest` succeeds with the Windows-generated lockfile | Pitfall 4 | Medium. Lockfile contains the linux bindings, but only the first CI run proves it; fallback documented. |
 | A6 | GitHub Pages serves the fresh `index.html` within about a minute of deploy (curl loop retries 6 x 10 s) | Code Example 6 | Low. Increase retries or drop the step. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Does the user want commits made during execution?**
+1. **Does the user want commits made during execution?** RESOLVED (planning, 2026-09-29): GSD executor per-task local commits are the established workflow here (`commit_docs: true`, prior GSD commits exist). Pushing and the Pages source switch stay explicit user stops: plan 01-04 Task 1 (STOP 1, push) and plan 01-05 Task 1 (STOP 2, Pages switch), both blocking-human checkpoints.
    - Known: global rule says do not commit/push unless asked; GSD phase execution normally commits per task.
    - Unclear: whether that standing GSD behavior counts as "asked".
    - Recommendation: plan commits as part of GSD execution (config has `commit_docs: true`), but keep push and Pages flip as explicit user stops.
-2. **`%BASE_URL%favicon.svg` vs `/favicon.svg` vs the literal D-04 wording.**
+2. **`%BASE_URL%favicon.svg` vs `/favicon.svg` vs the literal D-04 wording.** RESOLVED: use `%BASE_URL%favicon.svg`, recorded against D-04 in plan 01-02 Task 2 step 3 (no hard-coded leading slash, resolves under the base; a bare `favicon.svg` is not rewritten and fails the build-output test).
    - Known: literal bare `favicon.svg` is not rewritten (Pitfall 1).
    - Recommendation: use `%BASE_URL%favicon.svg`; record it as satisfying D-04's intent.
-3. **Keep or drop the post-deploy curl step?** Optional per CONTEXT. Recommendation: keep; it is the only automatic check of the live URL (SC4), and it fails loudly if the source flip was forgotten.
+3. **Keep or drop the post-deploy curl step?** RESOLVED: keep it (plan 01-03 Task 1 step 2), hardened to read the page URL from an `env` entry instead of interpolating it into the script. Optional per CONTEXT. Recommendation: keep; it is the only automatic check of the live URL (SC4), and it fails loudly if the source flip was forgotten.
 
 ## Environment Availability
 
