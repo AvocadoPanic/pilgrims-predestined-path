@@ -203,11 +203,11 @@ All state managed via `useState` hooks in single App component:
 - Location: `src/main.jsx`
 - Triggers: React bootstrap
 - Responsibilities: Render App component to #root DOM node
-- **Issue**: Imports from `'./App'` but file does not exist; default export is in `pilgrims-predestined-path.jsx`
+- `src/main.jsx` renders the App element from `./App.jsx` with `createRoot` inside `StrictMode`
 
 **App Component:**
 
-- Location: `pilgrims-predestined-path.jsx` (exported as default, line 308)
+- Location: `src/App.jsx` (default export)
 - Triggers: React mounting
 - Responsibilities: Initialize game state, render UI, handle all game events
 
@@ -223,16 +223,7 @@ All state managed via `useState` hooks in single App component:
 
 ## Anti-Patterns
 
-### Missing App.jsx File
-
-**What happens:** `src/main.jsx` imports `App from './App'` but `App.jsx` does not exist. The actual App component is exported from `pilgrims-predestined-path.jsx` (default export, line 308).
-
-**Why it's wrong:** This creates a module resolution error at runtime. The import statement cannot find the module, and the application fails to load. The separation of concerns is broken — the main entry point cannot load.
-
-**Do this instead:** Either:
-
-1. Move or copy the App component from `pilgrims-predestined-path.jsx` to `src/App.jsx` (renaming the export)
-2. Or update `src/main.jsx` to import from the correct path: `import App from '../pilgrims-predestined-path.jsx'`
+Resolved in Phase 1: the component lives at `src/App.jsx` and `src/main.jsx` imports it.
 
 ### Monolithic Component
 
