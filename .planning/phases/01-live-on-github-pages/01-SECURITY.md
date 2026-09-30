@@ -87,6 +87,17 @@ created: "2026-09-30"
 | Audit Date | Threats Total | Closed | Open | Run By |
 |------------|---------------|--------|------|--------|
 | 2026-09-30 | 24 | 24 | 0 | /gsd-secure-phase orchestrator (ASVS L1 grep-depth; auditor skipped per short-circuit: register authored at plan time, 0 open) |
+| 2026-09-30 (re-run) | 24 | 24 | 0 | /gsd-secure-phase orchestrator (State A re-audit; no code changes since first audit) |
+
+## Security Audit 2026-09-30 (re-run)
+
+| Metric | Count |
+|--------|-------|
+| Threats found | 24 |
+| Closed | 24 |
+| Open | 0 |
+
+Re-run via `/gsd-secure-phase 01` against the current tree and live site. No source, workflow or config files changed since the first audit (`git diff 46ea281..HEAD` outside `.planning/` is empty). All grep-level checks reproduced: 5/5 SHA-pinned actions, exact permissions, 0 `if:`/`continue-on-error`, 0 secrets, no private paths tracked or on GitHub, 0 Google Fonts references in source or on the live page, `https_enforced: true`, `build_type: workflow`, latest deploy runs on `main` succeeded. (The one failed run listed, 23167752197 on 55f4cd0 from 2026-03-16, is the pre-Phase-1 broken workflow.)
 
 Notes: code review warnings WR-01 (no positive test that fonts are bundled) and WR-02 (`cancel-in-progress: true`) in 01-REVIEW.md are quality/reliability issues, not open threats against this register.
 
