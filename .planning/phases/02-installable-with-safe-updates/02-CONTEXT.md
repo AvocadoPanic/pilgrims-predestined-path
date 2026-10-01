@@ -37,6 +37,10 @@ The live game at https://avocadopanic.github.io/pilgrims-predestined-path/ becom
 - **D-15:** Kill switch = the plugin's self-destroying mode (believed to be `selfDestroying: true`; research must confirm the option and its behavior in vite-plugin-pwa 1.3). Document the procedure (flip the flag, deploy, confirm the worker unregisters and caches clear, then revert) and rehearse it once locally with `npm run build` + `npm run preview`. Nothing self-destroying is deployed.
 - **D-16:** The procedure and the standing PWA rules (never rename `sw.js` or change its scope; `ppp:` prefix for storage keys and custom caches; `cleanupOutdatedCaches: true`; test with build + preview, not `vite dev`; the two-deploy update check for Phases 3 to 7) live in `docs/PWA.md`. The repo has no README today; don't create one only to link this.
 
+### Deploy policy (decided during plan-phase, 2026-09-30)
+- **D-17:** Docs-only pushes skip the deploy: `.github/workflows/deploy.yml` `on.push` gets `paths-ignore` for `.planning/**`, `docs/**`, `**/*.md` and `.claude/**`, so only code changes redeploy and trigger the update hint (every build carries a new build id). `workflow_dispatch` stays available for a manual redeploy.
+- **D-18:** Close Phase 1 review item WR-02: set `concurrency.cancel-in-progress: false` in `deploy.yml` so a running deploy finishes and the next one queues, instead of being cancelled mid-run now that deploys carry a service worker.
+
 ### Claude's Discretion
 - How the start-after-reload handoff is stored and consumed (D-01), and where the `registerSW` wiring lives (e.g. a small hook or module used by `App`).
 - Build-id injection mechanics (Vite `define`, `GITHUB_SHA` in CI vs `git rev-parse` locally).
