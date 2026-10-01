@@ -78,7 +78,29 @@ Plans:
   4. A game in progress never reloads: if a new version arrives mid-game, play continues to the end screen, where the update is offered.
   5. The live manifest, service worker and icons load from under `/pilgrims-predestined-path/`, and a build test fails if the manifest's `scope`, `start_url` or `id` leaves that path, or if the 192, 512 or separate maskable icon or the 180x180 apple-touch-icon is missing.
 
-**Plans:** TBD
+**Plans:** 5 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 02-01-PLAN.md - Tracer: update offered on setup and applied by Start (vite-plugin-pwa prompt mode, update controller, start handoff, build id footer, SC5 manifest/worker build gate)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 02-02-PLAN.md - Legitimacy gate for the icon generator, then installable with the game's own icons and the Install / Share row on setup
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 02-03-PLAN.md - Kill-switch rehearsal and docs/PWA.md; deploy.yml paths-ignore (D-17), queued deploys (D-18), live PWA smoke step
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
+- [ ] 02-04-PLAN.md - STOP A go-ahead, push release A, verify live PWA files and install UI; real-device install checks
+
+**Wave 5** *(blocked on Wave 4 completion)*
+
+- [ ] 02-05-PLAN.md - STOP B go-ahead, push release B under a scripted live two-deploy update check
+
 **UI hint**: yes
 
 **Notes:**
@@ -215,7 +237,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Live on GitHub Pages | 5/5 | Complete    | 2026-09-30 |
-| 2. Installable, With Safe Updates | 0/TBD | Not started | - |
+| 2. Installable, With Safe Updates | 0/5 | Planned | - |
 | 3. Honest Copy on a Tested Engine | 0/TBD | Not started | - |
 | 4. Hard Questions on the Special Spaces | 0/TBD | Not started | - |
 | 5. A Question Every Third Draw | 0/TBD | Not started | - |
