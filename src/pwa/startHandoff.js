@@ -1,16 +1,27 @@
 const KEY = 'ppp:start-after-update';
 const MAX_AGE_MS = 2 * 60 * 1000;
 
-export function saveStartHandoff(settings, storage = globalThis.sessionStorage, now = Date.now) {
+const defaultStorage = () => {
   try {
+    return globalThis.sessionStorage;
+  } catch {
+    // reading sessionStorage throws SecurityError when the browser blocks site data
+    return null;
+  }
+};
+
+export function saveStartHandoff(settings, storage = defaultStorage(), now = Date.now) {
+  try {
+    if (!storage) return;
     storage.setItem(KEY, JSON.stringify({ at: now(), settings }));
   } catch {
     // private mode: the update still applies, the game just starts from setup
   }
 }
 
-export function clearStartHandoff(storage = globalThis.sessionStorage) {
+export function clearStartHandoff(storage = defaultStorage()) {
   try {
+    if (!storage) return;
     storage.removeItem(KEY);
   } catch {
     // ignore
@@ -18,8 +29,9 @@ export function clearStartHandoff(storage = globalThis.sessionStorage) {
 }
 
 // The origin is shared with other projects, so storage is untrusted: validate everything.
-export function consumeStartHandoff(storage = globalThis.sessionStorage, now = Date.now) {
+export function consumeStartHandoff(storage = defaultStorage(), now = Date.now) {
   try {
+    if (!storage) return null;
     const raw = storage.getItem(KEY);
     storage.removeItem(KEY);
     if (!raw) return null;
