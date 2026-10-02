@@ -78,7 +78,7 @@ Plans:
   4. A game in progress never reloads: if a new version arrives mid-game, play continues to the end screen, where the update is offered.
   5. The live manifest, service worker and icons load from under `/pilgrims-predestined-path/`, and a build test fails if the manifest's `scope`, `start_url` or `id` leaves that path, or if the 192, 512 or separate maskable icon or the 180x180 apple-touch-icon is missing.
 
-**Plans:** 5/7 plans executed (2 gap-closure plans pending)
+**Plans:** 6/7 plans executed (2 gap-closure plans pending)
 
 Plans:
 **Wave 1**
@@ -103,7 +103,7 @@ Plans:
 
 **Gap closure, wave 1**
 
-- [ ] 02-06-PLAN.md - Tracer: a storage-blocked browser opens and starts the game (CR-01); Start-with-update becomes a tested helper with a loading line, locked choices and timer cleanup (WR-01)
+- [x] 02-06-PLAN.md - Tracer: a storage-blocked browser opens and starts the game (CR-01); Start-with-update becomes a tested helper with a loading line, locked choices and timer cleanup (WR-01)
 
 **Gap closure, wave 2** *(blocked on 02-06 completion)*
 
@@ -245,7 +245,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Live on GitHub Pages | 5/5 | Complete    | 2026-09-30 |
-| 2. Installable, With Safe Updates | 5/5 | In Progress|  |
+| 2. Installable, With Safe Updates | 6/7 | In Progress|  |
 | 3. Honest Copy on a Tested Engine | 0/TBD | Not started | - |
 | 4. Hard Questions on the Special Spaces | 0/TBD | Not started | - |
 | 5. A Question Every Third Draw | 0/TBD | Not started | - |

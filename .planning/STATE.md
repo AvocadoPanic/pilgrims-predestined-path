@@ -1,18 +1,18 @@
 ---
 gsd_state_version: "1.0"
 current_phase: 02
-current_phase_name: installable-with-safe-updates
+current_phase_name: Installable, With Safe Updates
 status: executing
-stopped_at: Completed 02-05-PLAN.md
-last_updated: "2026-10-02T12:13:11.343Z"
-last_activity: 2026-10-01
+stopped_at: Completed 02-06-PLAN.md
+last_updated: "2026-10-02T13:19:03.377Z"
+last_activity: 2026-10-02
 last_activity_desc: Phase 02 execution started
-state_head: 7b1b113d3e015263c51d46faf827a80d59d3f594
+state_head: 91aa81c792a0514ab3e6d338e82d0890bfb2486d
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 12
-  completed_plans: 10
+  completed_plans: 11
   percent: 14
 ---
 
@@ -28,10 +28,10 @@ See: .planning/PROJECT.md (updated 2026-09-30)
 
 ## Current Position
 
-Phase: 02 (installable-with-safe-updates) — READY TO EXECUTE
-Plan: 5 of 5
+Phase: 02 (Installable, With Safe Updates) — EXECUTING
+Plan: 2 of 7
 Status: Ready to execute
-Last activity: 2026-10-01 — Phase 02 execution started
+Last activity: 2026-10-02 — Phase 02 execution started
 
 Progress: [█░░░░░░░░░] 14%
 
@@ -69,6 +69,7 @@ Progress: [█░░░░░░░░░] 14%
 | Phase 02 P03 | 15 min | 2 tasks | 2 files |
 | Phase 02 P04 | 8 min | 2 tasks | 0 files |
 | Phase 02 P05 | 10 min | 2 tasks | 0 files |
+| Phase 02 P06 | 9 min | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -97,6 +98,8 @@ Recent decisions affecting current work:
 - [Phase 02]: 02-03: deploy.yml skips docs-only pushes, queues deploys, smoke-checks live PWA files; ci(02-03) commit is the last non-docs commit of the plan — D-17, D-18, SC5; lets 02-04 release its parent as build A and 02-05 release it as build B
 - [Phase 02]: 02-04: pushed release A (82e2eac) alone by SHA to origin/main after the user's reply 'push' (read as push-a); C and later commits stay local for 02-05
 - [Phase 02]: 02-05: release B (5ad072d) pushed to origin/main after the user's 'push' reply (read as push-b); live two-deploy check passed on GitHub Pages — Proves PWA-04 on the real host: update offered on setup, Start loads B, game in progress never reloaded, B deploy incl. live PWA smoke step succeeded
+- [Phase 02]: 02-06: no storage fallback when sessionStorage is blocked; the handoff is skipped (D-01, D-07)
+- [Phase 02]: 02-06: Start fallback timer is armed before updates.apply(); pilgrim buttons lock while applying so the count cannot drift
 
 ### Pending Todos
 
@@ -120,6 +123,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-10-02T03:45:27.597Z
-Stopped at: Completed 02-05-PLAN.md
+Last session: 2026-10-02T13:19:03.154Z
+Stopped at: Completed 02-06-PLAN.md
 Resume file: None
