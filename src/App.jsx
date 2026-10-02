@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo, useSyncExternalStore } from "react";
 import { updates, installs } from "./pwa/store.js";
 import { saveStartHandoff, consumeStartHandoff, clearStartHandoff } from "./pwa/startHandoff.js";
+import { createStartWithUpdate } from "./pwa/startWithUpdate.js";
 
 /* ═══════════════════ CONSTANTS ═══════════════════ */
 const COLORS = ["red","green","blue","yellow","orange","purple"];
@@ -326,7 +327,9 @@ export default function App(){
   const updateWaiting=useSyncExternalStore(updates.subscribe,updates.getSnapshot,updates.getServerSnapshot);
   const installMode=useSyncExternalStore(installs.subscribe,installs.getSnapshot,installs.getServerSnapshot);
   useEffect(()=>{updates.setSafeToReload(phase==="setup");},[phase]);
-  const applyingRef=useRef(false);
+  const[applying,setApplying]=useState(false);
+  const[startFlow]=useState(()=>createStartWithUpdate({updates,save:saveStartHandoff,clear:clearStartHandoff,onApplyingChange:setApplying}));
+  useEffect(()=>()=>startFlow.cancel(),[startFlow]);
 
   const begin=(n)=>{
     const p=Array.from({length:n},(_,i)=>({id:i,position:0,color:PC[i],name:PN[i]}));
@@ -335,17 +338,7 @@ export default function App(){
     setLog([{text:"⸭ The decree is sealed. ⸭",type:"system"}]);
   };
   useEffect(()=>{const h=consumeStartHandoff();if(h){setNumP(h.numP);begin(h.numP);}},[]);
-  const onStart=()=>{
-    if(!updateWaiting){begin(numP);return;}
-    if(applyingRef.current)return;
-    applyingRef.current=true;
-    saveStartHandoff({numP});
-    updates.apply().catch(()=>{});
-    setTimeout(()=>{
-      if(updates.isReloading())return;
-      clearStartHandoff();updates.setSafeToReload(false);applyingRef.current=false;begin(numP);
-    },4000);
-  };
+  const onStart=()=>startFlow.start({waiting:updateWaiting,getNumP:()=>numP,begin});
 
   const draw=useCallback(()=>{
     if(ts!=="draw"||di>=deck.length)return;
@@ -432,11 +425,11 @@ export default function App(){
         <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:"10px",marginBottom:"14px"}}>
           <span style={{color:"#9a8a7a",fontSize:"12px"}}>Pilgrims:</span>
           {[2,3,4].map(n=>(
-            <button key={n} onClick={()=>setNumP(n)} style={{width:"38px",height:"38px",borderRadius:"50%",background:numP===n?"rgba(218,165,32,0.2)":"rgba(255,255,255,0.03)",border:numP===n?"2px solid #daa520":"1px solid rgba(255,255,255,0.1)",color:numP===n?"#daa520":"#6a5a4a",fontSize:"15px",fontFamily:"'EB Garamond',Georgia,serif",cursor:"pointer",fontWeight:600}}>{n}</button>
+            <button key={n} disabled={applying} onClick={()=>setNumP(n)} style={{width:"38px",height:"38px",borderRadius:"50%",background:numP===n?"rgba(218,165,32,0.2)":"rgba(255,255,255,0.03)",border:numP===n?"2px solid #daa520":"1px solid rgba(255,255,255,0.1)",color:numP===n?"#daa520":"#6a5a4a",fontSize:"15px",fontFamily:"'EB Garamond',Georgia,serif",cursor:applying?"default":"pointer",fontWeight:600}}>{n}</button>
           ))}
         </div>
-        <button onClick={onStart} style={{padding:"11px 32px",borderRadius:"8px",background:"linear-gradient(135deg,#daa520,#c49520)",border:"none",cursor:"pointer",fontFamily:"'EB Garamond',Georgia,serif",fontSize:"14px",fontWeight:700,color:"#1a0a0a",letterSpacing:"2px",textTransform:"uppercase",boxShadow:"0 4px 12px rgba(218,165,32,0.3)"}}>Submit to Providence</button>
-        {updateWaiting&&<p style={{color:"#9a8a7a",fontSize:"11px",fontStyle:"italic",margin:"10px 0 0"}}>A new version will load when you start.</p>}
+        <button onClick={onStart} disabled={applying} style={{padding:"11px 32px",borderRadius:"8px",background:"linear-gradient(135deg,#daa520,#c49520)",border:"none",cursor:applying?"wait":"pointer",opacity:applying?0.6:1,fontFamily:"'EB Garamond',Georgia,serif",fontSize:"14px",fontWeight:700,color:"#1a0a0a",letterSpacing:"2px",textTransform:"uppercase",boxShadow:"0 4px 12px rgba(218,165,32,0.3)"}}>Submit to Providence</button>
+        {updateWaiting&&<p style={{color:"#9a8a7a",fontSize:"11px",fontStyle:"italic",margin:"10px 0 0"}}>{applying?"Loading the new version...":"A new version will load when you start."}</p>}
         {installMode==="prompt"&&<button onClick={installs.promptInstall} style={{marginTop:"12px",padding:"7px 20px",borderRadius:"6px",background:"rgba(218,165,32,0.15)",border:"1px solid rgba(218,165,32,0.3)",cursor:"pointer",fontFamily:"'EB Garamond',Georgia,serif",fontSize:"12px",color:"#daa520",letterSpacing:"1px"}}>Install this game</button>}
         {installMode==="ios"&&<p style={{color:"#9a8a7a",fontSize:"11px",margin:"12px 0 0"}}>On iPhone or iPad: tap Share, then Add to Home Screen</p>}
         <p style={{color:"#6a5a4a",fontSize:"10px",margin:"18px 0 0"}}>{__BUILD_ID__}</p>
