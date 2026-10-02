@@ -34,6 +34,15 @@ const cssUrls = () =>
     .flatMap((f) =>
       [...readFileSync(f, 'utf8').matchAll(/url\(\s*["']?([^"')\s]+)["']?\s*\)/g)].map((m) => m[1]));
 
+const ORIGIN = 'https://avocadopanic.github.io';
+const MANIFEST_URL = `${ORIGIN}${BASE}manifest.webmanifest`;
+const readManifest = () => JSON.parse(readFileSync(join(out, 'manifest.webmanifest'), 'utf8'));
+const underBase = (u) => u.origin === ORIGIN && u.pathname.startsWith(BASE);
+
+// An emergency kill-switch deploy flips this together with KILL_SWITCH in vite.config.js
+// (the two-key procedure in docs/PWA.md), so a single accidental flip fails CI.
+const EXPECT_KILL_SWITCH = false;
+
 describe('production build output', () => {
   it('index.html references only base-prefixed local URLs', () => {
     const urls = htmlUrls();
@@ -59,5 +68,45 @@ describe('production build output', () => {
     const urls = htmlUrls();
     expect(urls.some((u) => /^\/pilgrims-predestined-path\/assets\/index-[A-Za-z0-9_-]+\.js$/.test(u))).toBe(true);
     expect(urls.some((u) => /^\/pilgrims-predestined-path\/assets\/index-[A-Za-z0-9_-]+\.css$/.test(u))).toBe(true);
+  });
+});
+
+describe('PWA build output', () => {
+  it('manifest scope, start_url and id stay under the base path', () => {
+    const m = readManifest();
+    expect(underBase(new URL(m.scope, MANIFEST_URL)), 'scope').toBe(true);
+    expect(underBase(new URL(m.start_url, MANIFEST_URL)), 'start_url').toBe(true);
+    // id resolves against the origin, not the manifest URL (RESEARCH Pitfall 3)
+    expect(underBase(new URL(m.id, ORIGIN)), 'id').toBe(true);
+    expect(m.display).toBe('standalone');
+  });
+
+  it('manifest carries the decided name, description, colors and orientation', () => {
+    const m = readManifest();
+    expect(m.name).toBe("The Pilgrim's Predestined Path");
+    expect(m.short_name).toBe("Pilgrim's Path");
+    expect(m.description).toBe('A board game of Reformed theology for 2 to 4 players on one screen');
+    expect(m.theme_color).toBe('#0a0608');
+    expect(m.background_color).toBe('#0a0608');
+    expect(m.orientation).toBe('any');
+    expect(m).not.toHaveProperty('screenshots');
+  });
+
+  it('sw.js is the real generateSW worker and registers under the base scope', () => {
+    const sw = readFileSync(join(out, 'sw.js'), 'utf8');
+    if (EXPECT_KILL_SWITCH) {
+      expect(sw).toContain('unregister');
+      expect(sw).not.toContain('precacheAndRoute');
+      return;
+    }
+    expect(sw).toContain('precacheAndRoute');
+    expect(sw).toContain('cleanupOutdatedCaches');
+    expect(sw).not.toContain('registration.unregister');
+    const js = walk(join(out, 'assets'))
+      .filter((f) => f.endsWith('.js'))
+      .map((f) => readFileSync(f, 'utf8'))
+      .join(' ');
+    expect(js).toContain(`${BASE}sw.js`);
+    expect(js).toMatch(/scope:["'\x60]\/pilgrims-predestined-path\/["'\x60]/);
   });
 });
