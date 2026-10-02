@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo, useSyncExternalStore } from "react";
 import { updates } from "./pwa/store.js";
+import { saveStartHandoff, consumeStartHandoff, clearStartHandoff } from "./pwa/startHandoff.js";
 
 /* ═══════════════════ CONSTANTS ═══════════════════ */
 const COLORS = ["red","green","blue","yellow","orange","purple"];
@@ -324,6 +325,7 @@ export default function App(){
   useEffect(()=>{if(lr.current)lr.current.scrollTop=lr.current.scrollHeight;},[log]);
   const updateWaiting=useSyncExternalStore(updates.subscribe,updates.getSnapshot,updates.getServerSnapshot);
   useEffect(()=>{updates.setSafeToReload(phase==="setup");},[phase]);
+  const applyingRef=useRef(false);
 
   const begin=(n)=>{
     const p=Array.from({length:n},(_,i)=>({id:i,position:0,color:PC[i],name:PN[i]}));
@@ -331,9 +333,17 @@ export default function App(){
     setMsg(`The deck is shuffled. The outcome is fixed. ${PN[0]}, submit to Providence.`);
     setLog([{text:"⸭ The decree is sealed. ⸭",type:"system"}]);
   };
+  useEffect(()=>{const h=consumeStartHandoff();if(h){setNumP(h.numP);begin(h.numP);}},[]);
   const onStart=()=>{
     if(!updateWaiting){begin(numP);return;}
-    updates.apply();
+    if(applyingRef.current)return;
+    applyingRef.current=true;
+    saveStartHandoff({numP});
+    updates.apply().catch(()=>{});
+    setTimeout(()=>{
+      if(updates.isReloading())return;
+      clearStartHandoff();updates.setSafeToReload(false);applyingRef.current=false;begin(numP);
+    },4000);
   };
 
   const draw=useCallback(()=>{

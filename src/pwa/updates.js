@@ -7,8 +7,13 @@ export function createUpdateController({ reload, doc, now = () => Date.now() }) 
   let registration = null;
   let lastCheck = now();
   let updateSW = null;
+  let reloading = false;
   const listeners = new Set();
   const emit = () => listeners.forEach((l) => l());
+  const doReload = () => {
+    reloading = true;
+    reload();
+  };
 
   if (doc) {
     doc.addEventListener('visibilitychange', () => {
@@ -28,7 +33,7 @@ export function createUpdateController({ reload, doc, now = () => Date.now() }) 
         },
         onNeedReload() {
           if (safeToReload) {
-            reload();
+            doReload();
           } else {
             pendingReload = true;
             emit();
@@ -48,10 +53,10 @@ export function createUpdateController({ reload, doc, now = () => Date.now() }) 
     setSafeToReload(v) {
       safeToReload = v;
     },
-    isReloading: () => false,
+    isReloading: () => reloading,
     apply() {
       if (pendingReload) {
-        reload();
+        doReload();
         return Promise.resolve();
       }
       return updateSW ? updateSW() : Promise.resolve();
