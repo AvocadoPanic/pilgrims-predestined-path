@@ -7,5 +7,7 @@ describe('App smoke', () => {
     const html = renderToString(<App />);
     expect(html).toContain('Predestined Path');
     expect(html).not.toContain('fonts.googleapis.com');
+    expect(html).toContain('>dev<');
+    expect(html).not.toContain('A new version will load');
   });
 });

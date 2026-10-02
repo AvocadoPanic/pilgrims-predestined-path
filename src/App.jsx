@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, useSyncExternalStore } from "react";
+import { updates } from "./pwa/store.js";
 
 /* ═══════════════════ CONSTANTS ═══════════════════ */
 const COLORS = ["red","green","blue","yellow","orange","purple"];
@@ -321,12 +322,18 @@ export default function App(){
   const[winner,setWinner]=useState(null);
   const lr=useRef(null);
   useEffect(()=>{if(lr.current)lr.current.scrollTop=lr.current.scrollHeight;},[log]);
+  const updateWaiting=useSyncExternalStore(updates.subscribe,updates.getSnapshot,updates.getServerSnapshot);
+  useEffect(()=>{updates.setSafeToReload(phase==="setup");},[phase]);
 
-  const start=()=>{
-    const p=Array.from({length:numP},(_,i)=>({id:i,position:0,color:PC[i],name:PN[i]}));
+  const begin=(n)=>{
+    const p=Array.from({length:n},(_,i)=>({id:i,position:0,color:PC[i],name:PN[i]}));
     setPlayers(p);setDeck(buildDeck());setDi(0);setCur(0);setCard(null);setTs("draw");setStuck({});setWinner(null);setPhase("play");
     setMsg(`The deck is shuffled. The outcome is fixed. ${PN[0]}, submit to Providence.`);
     setLog([{text:"⸭ The decree is sealed. ⸭",type:"system"}]);
+  };
+  const onStart=()=>{
+    if(!updateWaiting){begin(numP);return;}
+    updates.apply();
   };
 
   const draw=useCallback(()=>{
@@ -417,7 +424,9 @@ export default function App(){
             <button key={n} onClick={()=>setNumP(n)} style={{width:"38px",height:"38px",borderRadius:"50%",background:numP===n?"rgba(218,165,32,0.2)":"rgba(255,255,255,0.03)",border:numP===n?"2px solid #daa520":"1px solid rgba(255,255,255,0.1)",color:numP===n?"#daa520":"#6a5a4a",fontSize:"15px",fontFamily:"'EB Garamond',Georgia,serif",cursor:"pointer",fontWeight:600}}>{n}</button>
           ))}
         </div>
-        <button onClick={start} style={{padding:"11px 32px",borderRadius:"8px",background:"linear-gradient(135deg,#daa520,#c49520)",border:"none",cursor:"pointer",fontFamily:"'EB Garamond',Georgia,serif",fontSize:"14px",fontWeight:700,color:"#1a0a0a",letterSpacing:"2px",textTransform:"uppercase",boxShadow:"0 4px 12px rgba(218,165,32,0.3)"}}>Submit to Providence</button>
+        <button onClick={onStart} style={{padding:"11px 32px",borderRadius:"8px",background:"linear-gradient(135deg,#daa520,#c49520)",border:"none",cursor:"pointer",fontFamily:"'EB Garamond',Georgia,serif",fontSize:"14px",fontWeight:700,color:"#1a0a0a",letterSpacing:"2px",textTransform:"uppercase",boxShadow:"0 4px 12px rgba(218,165,32,0.3)"}}>Submit to Providence</button>
+        {updateWaiting&&<p style={{color:"#9a8a7a",fontSize:"11px",fontStyle:"italic",margin:"10px 0 0"}}>A new version will load when you start.</p>}
+        <p style={{color:"#6a5a4a",fontSize:"10px",margin:"18px 0 0"}}>{__BUILD_ID__}</p>
       </div>
     </div>
   );
