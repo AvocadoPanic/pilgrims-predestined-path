@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 02
 current_phase_name: Installable, With Safe Updates
 status: executing
-stopped_at: Completed 02-06-PLAN.md
-last_updated: "2026-10-02T13:19:03.377Z"
+stopped_at: Completed 02-07-PLAN.md
+last_updated: "2026-10-02T13:25:43.555Z"
 last_activity: 2026-10-02
 last_activity_desc: Phase 02 execution started
-state_head: 91aa81c792a0514ab3e6d338e82d0890bfb2486d
+state_head: c49673fd2abdc4c89b7762614d6cff7006c1b072
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 12
-  completed_plans: 11
+  completed_plans: 12
   percent: 14
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-09-30)
 ## Current Position
 
 Phase: 02 (Installable, With Safe Updates) — EXECUTING
-Plan: 2 of 7
+Plan: 3 of 7
 Status: Ready to execute
 Last activity: 2026-10-02 — Phase 02 execution started
 
@@ -70,6 +70,7 @@ Progress: [█░░░░░░░░░] 14%
 | Phase 02 P04 | 8 min | 2 tasks | 0 files |
 | Phase 02 P05 | 10 min | 2 tasks | 0 files |
 | Phase 02 P06 | 9 min | 3 tasks | 6 files |
+| Phase 02 P07 | 5 min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -100,6 +101,7 @@ Recent decisions affecting current work:
 - [Phase 02]: 02-05: release B (5ad072d) pushed to origin/main after the user's 'push' reply (read as push-b); live two-deploy check passed on GitHub Pages — Proves PWA-04 on the real host: update offered on setup, Start loads B, game in progress never reloaded, B deploy incl. live PWA smoke step succeeded
 - [Phase 02]: 02-06: no storage fallback when sessionStorage is blocked; the handoff is skipped (D-01, D-07)
 - [Phase 02]: 02-06: Start fallback timer is armed before updates.apply(); pilgrim buttons lock while applying so the count cannot drift
+- [Phase 02]: 02-07: build test asserts no clientsClaim in sw.js and opaque 192/512/maskable icons; skipWaiting deliberately not asserted — Prompt-mode worker carries a SKIP_WAITING message handler; both guards proven by caught mutations
 
 ### Pending Todos
 
@@ -123,6 +125,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-10-02T13:19:03.154Z
-Stopped at: Completed 02-06-PLAN.md
+Last session: 2026-10-02T13:25:43.342Z
+Stopped at: Completed 02-07-PLAN.md
 Resume file: None
