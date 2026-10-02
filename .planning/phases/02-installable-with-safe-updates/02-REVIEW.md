@@ -1,141 +1,94 @@
 ---
 phase: 02-installable-with-safe-updates
-reviewed: 2026-10-01T00:00:00Z
+reviewed: 2026-10-02T00:00:00Z
 depth: standard
-files_reviewed: 17
+files_reviewed: 8
 files_reviewed_list:
-  - .github/workflows/deploy.yml
-  - docs/PWA.md
-  - index.html
-  - package.json
-  - scripts/pwa-assets.config.mjs
   - src/App.jsx
   - src/App.smoke.test.jsx
   - src/build-output.test.js
-  - src/main.jsx
   - src/pwa/install.js
-  - src/pwa/install.test.js
   - src/pwa/startHandoff.js
   - src/pwa/startHandoff.test.js
-  - src/pwa/store.js
-  - src/pwa/updates.js
-  - src/pwa/updates.test.js
-  - vite.config.js
+  - src/pwa/startWithUpdate.js
+  - src/pwa/startWithUpdate.test.js
 findings:
-  critical: 1
-  warning: 3
-  info: 5
-  total: 9
+  critical: 0
+  warning: 1
+  info: 4
+  total: 5
 status: issues_found
 ---
 
-# Phase 2: Code Review Report
+# Phase 2: Code Review Report (re-review after gap plans 02-06 and 02-07)
 
-**Reviewed:** 2026-10-01
+**Reviewed:** 2026-10-02
 **Depth:** standard
-**Files Reviewed:** 17
+**Files Reviewed:** 8 (changes since a8a0d4b, read in full for context; `src/pwa/updates.js` and `src/pwa/store.js` read for call-chain checks)
 
 ## Summary
 
-The update path is well reasoned. I read `registerSW` in vite-plugin-pwa 1.3.0 (`node_modules/vite-plugin-pwa/dist/client/build/register.js`) and confirmed that `onNeedReload` is honored. With it set, the plugin does not reload by itself, so the controller's "never reload a game in progress" logic holds. A late `controlling` event after the 4 s fallback is also safe, because `setSafeToReload(false)` is called first. The one-way-door values (sw.js name, scope, manifest id) are untouched.
+The two gap plans fix the prior Critical and the prior Warnings that were in scope. I traced the new `createStartWithUpdate` helper against `updates.js` and `App.jsx` and found no correctness defect in the start-with-update path: the timer is armed before `apply()`, a throwing save, apply, clear or a non-promise apply result cannot skip the fallback, `setSafeToReload(false)` runs before `begin`, and unmount cancels the timer. I also ran `npx vitest run`: 6 files, 79 tests pass. I built the site and read `sw.js` to check what the build guard can and cannot catch (see WR-01).
 
-One real defect: the session-storage handoff is not as defensive as it claims. In browsers that block storage, it can blank the whole game. The remaining findings are robustness and test-coverage gaps.
+One Warning remains: the new build guard for worker takeover only covers `clientsClaim`, not `skipWaiting`. The rest are minor.
 
 No structural findings (fallow) were provided. No external reviewer evidence was provided.
 
+## Prior Findings Status
+
+| Prior finding | Status | Evidence |
+|---|---|---|
+| CR-01: reading `sessionStorage` outside try/catch crashes mount and wedges Start | **Resolved** | `src/pwa/startHandoff.js:4-11` adds `defaultStorage()`, which wraps the property read in try/catch and returns null. All three functions use it as the default argument (`:13`, `:22`, `:32`) and each guards `if (!storage)` inside its `try` (`:15`, `:24`, `:34`). The wedge is also gone structurally: `App.jsx:341` calls `startFlow.start`, whose `save` call is wrapped in try/catch (`startWithUpdate.js:45-49`). Tests: throwing-getter cases at `startHandoff.test.js:124-132` and the end-to-end case at `startWithUpdate.test.js:171-183`. |
+| WR-01: `onStart` update flow untested, magic timeout, no feedback, timer never cleared, count can change during the wait | **Resolved** | Sequence moved to `src/pwa/startWithUpdate.js` with 12 fake-timer tests (`startWithUpdate.test.js:33-183`). Named constant `UPDATE_FALLBACK_MS` (`startWithUpdate.js:2`). Timer cleared on unmount via `cancel()` (`startWithUpdate.js:59-65`, wired at `App.jsx:332`). Feedback: "Loading the new version..." and a disabled, dimmed button (`App.jsx:431-432`). Count locked: pilgrim buttons disabled while applying (`App.jsx:428`), so the stale `numP` closure at `App.jsx:341` cannot differ from the saved count. See IN-01 for a residual wiring-coverage gap. |
+| WR-02: build test misses worker takeover and opacity of manifest icons | **Partly resolved** | Opacity: new test over the 192, 512 and maskable icons (`build-output.test.js:113-121`). `clientsClaim` is now asserted absent (`build-output.test.js:145`). `skipWaiting:true` is still not caught (WR-01 below). |
+| WR-03: empty catch blocks in `install.js` | **Resolved** | Both catches now carry explanatory comments (`src/pwa/install.js:38-40`, `:65-67`). The `// ignore` at `src/pwa/startHandoff.js:27` is terse but acceptable (see IN-04). |
+
+IN-01 to IN-05 from the prior report were outside the stated focus and are not re-evaluated here. `updates.js:62` (prior IN-01) is still unchanged but is no longer reachable as a crash, because `startWithUpdate.js:53-54` tolerates a non-Promise result.
+
 ## Narrative Findings (AI reviewer)
-
-## Critical Issues
-
-### CR-01: Reading `sessionStorage` outside the try/catch can crash the app on mount and wedge the Start button
-
-**File:** `src/pwa/startHandoff.js:4,12,21` (callers `src/App.jsx:337,342`)
-**Issue:** All three functions default their argument with `storage = globalThis.sessionStorage`. Default parameters are evaluated at call time, before the function's `try` block. In browsers where storage access itself throws (Chrome with "Block all cookies", some sandboxed or embedded contexts), the property read raises `SecurityError`. The "private mode" `try/catch` therefore never gets a chance to run.
-- `consumeStartHandoff()` is called from a mount `useEffect` (`App.jsx:337`). An uncaught throw in an effect, with no error boundary, unmounts the whole tree. Affected players get a blank page, a regression of the existing game for them.
-- `saveStartHandoff({numP})` is called in `onStart` (`App.jsx:342`) after `applyingRef.current=true` is set. A throw there leaves the ref stuck at true, so every later Start click returns early at `App.jsx:340`. The player is stuck until they reload, and only when an update is waiting.
-
-The tests pass a fake storage and a "throwing" storage object. Neither reproduces a throwing property getter, so this path is untested.
-
-**Fix:**
-```js
-const defaultStorage = () => {
-  try { return globalThis.sessionStorage; } catch { return null; }
-};
-
-export function consumeStartHandoff(storage = defaultStorage(), now = Date.now) {
-  try {
-    if (!storage) return null;
-    const raw = storage.getItem(KEY);
-    ...
-```
-Do the same in `saveStartHandoff` and `clearStartHandoff`, with a null guard inside each `try`. Add a test that stubs `globalThis.sessionStorage` with a throwing getter via `Object.defineProperty`.
 
 ## Warnings
 
-### WR-01: `onStart` update flow is untested, uses a magic timeout, and gives no feedback
+### WR-01: Build guard for worker takeover does not catch `skipWaiting: true`
 
-**File:** `src/App.jsx:338-348`
-**Issue:** This is the most intricate part of the phase (guard ref, handoff save, apply, 4 s fallback to start without the update). It lives inline in the component, and no test exercises it. The smoke test only renders to a string. Specific gaps:
-- `4000` is an unexplained constant.
-- The `setTimeout` is never cleared if the component unmounts.
-- For up to 4 s after the click the button does nothing visible, and a second click is silently swallowed (`applyingRef`). On a slow device this reads as a dead button.
-- The fallback calls `begin(numP)` with the `numP` captured at click time. The player can still change the pilgrim count during the 4 s, so the game can start with a different count than the one shown selected.
-
-**Fix:** Move the sequence into a testable helper, for example `startWithUpdate({ updates, save, clear, begin, numP, timeoutMs, setTimeoutFn })`, and cover it with fake timers (reload path, fallback path, double click). Name the constant. Show a short "Loading the new version..." line or disable the button while `applyingRef` is set. Clear the timer in a cleanup.
-
-### WR-02: Build test does not enforce standing rule 4 and does not check what `docs/PWA.md` says it checks
-
-**File:** `src/build-output.test.js:112-139`, `docs/PWA.md:47`
-**Issue:**
-- Rule 4 says never add `skipWaiting` or `clientsClaim` takeover. The test asserts only `precacheAndRoute`, `cleanupOutdatedCaches` and the absence of `registration.unregister`. A future edit adding `clientsClaim: true` to the workbox options, which would break the "update applies only on Start" guarantee, would pass CI.
-- `docs/PWA.md:47` says "check sizes and opacity (the build test does this)". The test checks opacity (no `tRNS`, no alpha color type) only for the apple-touch-icon. The 192, 512 and maskable icons are checked for dimensions only. A transparent maskable icon would pass.
-
-**Fix:** Add `expect(sw).not.toContain('clientsClaim')` for the non-kill branch. Do not assert on `skipWaiting`: the prompt-mode worker legitimately contains a `SKIP_WAITING` message handler, so a naive check would fail. Run the existing `png()` opacity check over all three manifest icons, or correct the doc sentence.
-
-### WR-03: Install and handoff code swallow errors with empty `catch {}` blocks
-
-**File:** `src/pwa/install.js:38,63`, `src/pwa/startHandoff.js:14-16`
-**Issue:** The empty catches in `install.js` hide a real `matchMedia` failure and any exception from `e.prompt()`, with no comment explaining why. `startHandoff.js` at least has comments. The `prompt()` swallow is deliberate (tests assert it) but undocumented in the code. Low blast radius, but it makes future debugging harder.
-**Fix:** Add a one-line comment to each empty catch, as `startHandoff.js` does, saying what failure is being ignored and why it is safe.
+**File:** `src/build-output.test.js:141-145`
+**Issue:** The new assertion forbids only the string `clientsClaim`. The more damaging takeover flag is `workbox: { skipWaiting: true }`, which would let a new worker activate with no Start press and defeat the "update applies only on Start" guarantee. I built the site (`NODE_ENV=production vite build`) and read `sw.js`. In prompt mode the worker contains `self.addEventListener("message", e => { e.data && "SKIP_WAITING" === e.data.type && self.skipWaiting() })`. With `skipWaiting: true`, Workbox's generateSW template emits a bare `self.skipWaiting()` and drops that message listener. The test would still pass in that case: `precacheAndRoute` and `cleanupOutdatedCaches` are present, and `clientsClaim` and `registration.unregister` are absent. The comment at line 144 says only the claim call can be asserted, but the presence of the message handler is a positive signal that distinguishes the two modes.
+**Fix:**
+```js
+// Prompt mode: skipWaiting exists only inside the SKIP_WAITING message handler.
+expect(sw, 'prompt-mode SKIP_WAITING handler').toMatch(/"SKIP_WAITING"\s*===\s*\w+\.data\.type/);
+expect(sw, 'unconditional skipWaiting is forbidden').not.toMatch(/(^|[;,{}])\s*self\.skipWaiting\(\)/);
+```
+Adjust the second pattern to the built output (a bare call at statement level). The first pattern alone is enough to catch the flag flip. Rerun the build once with `skipWaiting: true` to confirm the test fails, then revert.
 
 ## Info
 
-### IN-01: `updates.apply()` can return a non-Promise
+### IN-01: App-level wiring of the start flow has no test
 
-**File:** `src/pwa/updates.js:62`, `src/App.jsx:343`
-**Issue:** `updateSW ? updateSW() : Promise.resolve()` assumes `registerSW` returns an async function. In a build or dev configuration where the virtual module is a stub (`() => {}`), `updateSW()` returns `undefined` and `App.jsx` calls `.catch` on it, throwing `TypeError`. Production returns an async function, and dev never has an update waiting, so this is latent.
-**Fix:** `return Promise.resolve(updateSW?.())` (or make `apply` `async`).
+**File:** `src/App.smoke.test.jsx:6-17`, `src/App.jsx:330-332,341,428-432`
+**Issue:** The helper is well covered, but the glue that makes WR-01's fix real is not: `onApplyingChange: setApplying`, the `disabled={applying}` attributes, the "Loading the new version..." text, the unmount `cancel()`, and `getNumP:()=>numP`. The smoke test only does a server render with no update waiting and asserts the absence of these strings. If someone drops `disabled={applying}` from the pilgrim buttons, the stale-count guard disappears and nothing fails. This is a coverage gap, not a present bug.
+**Fix:** Optional. Add one jsdom or react-test-renderer test that stubs `updates` and drives Start with an update waiting, or accept the gap and keep the manual two-deploy check in `docs/PWA.md`.
 
-### IN-02: A setup-screen window can reload without the player pressing Start
+### IN-02: Unit test asserts a behavior the app cannot exercise
 
-**File:** `src/pwa/updates.js:34-41`, `src/App.jsx:328`
-**Issue:** When another tab applies the update, every tab that showed the waiting prompt gets `controlling`. If that tab sits on the setup screen (`safeToReload` true), it reloads on its own and loses the chosen pilgrim count. No game is lost, so this is consistent with the design, but it contradicts the wording of `docs/PWA.md` rule 4 ("applies only when the player presses Start"). A window in progress is never reloaded, which is the guarantee that matters.
-**Fix:** Soften the doc wording to say a game in progress is never reloaded and a setup screen may refresh when another window applies the update.
+**File:** `src/pwa/startWithUpdate.test.js:79-87`, `src/App.jsx:341`
+**Issue:** The test "begins with the count current at fallback time" uses a live getter. `App.jsx:341` passes `getNumP:()=>numP`, which closes over the `numP` of the render that handled the click, so it is a constant. The behavior only matches the test because the pilgrim buttons are disabled during the wait. The two facts are coupled by convention, with no comment saying so.
+**Fix:** Add a one-line comment at `App.jsx:341` ("numP cannot change while applying; the buttons are disabled"), or pass the saved count to `begin` and drop the getter.
 
-### IN-03: Future lazy chunks in an old window will 404 after another window applies an update
+### IN-03: A reload that starts but never completes leaves the setup screen locked
 
-**File:** `docs/PWA.md:48-59` (two-deploy check), `vite.config.js:45`
-**Issue:** `cleanupOutdatedCaches` removes the old precache on activation, and GitHub Pages deletes old hashed files. Today the game is one bundle, so a game left running in an old window is fine. Once later phases add code-split or lazily loaded chunks, an in-progress game in an old window can request a chunk that no longer exists.
-**Fix:** Add a note to `docs/PWA.md` for Phase 3 and later: no lazy chunks on the in-game path, or handle chunk-load failure by offering a reload only at the next setup or end screen.
+**File:** `src/pwa/startWithUpdate.js:21,41-44`, `src/pwa/updates.js:13-16`
+**Issue:** When `isReloading()` is true at fallback time, the helper returns without resetting `applying` and never schedules anything else. `reloading` is set before `window.location.reload()` runs. If that call is blocked or ignored (an embedded webview, or a `beforeunload` handler cancelling it), the Start button and pilgrim buttons stay disabled until the user manually reloads. This is rare and recoverable, so it is Info only.
+**Fix:** In the `isReloading()` branch, optionally re-arm one more timer that clears `applying` if the page is still alive.
 
-### IN-04: Deploy workflow notes and gaps
+### IN-04: Duplicate icon-picking and opacity code in the build test
 
-**File:** `.github/workflows/deploy.yml:6-10,54-71`, `docs/PWA.md:31`
-**Issue:**
-- `paths-ignore: '**/*.md'` means any future game content stored as Markdown (for example imported with `?raw`) will not deploy on a push. The doc says to use "Run workflow", but this is an easy trap in the content phases.
-- GitHub keeps only one pending run per concurrency group and cancels older pending ones, so "deploys queue" is not strictly true. The newest wins, which is fine, but the doc wording is loose.
-- The PWA smoke check only asserts HTTP 200 on the six files. It does not check that `sw.js` is JavaScript or that the manifest parses.
-
-**Fix:** Mention the `.md` content trap next to the deploy policy. Optionally add `curl ... | grep -q precacheAndRoute` for `sw.js` and `jq -e .id` for the manifest.
-
-### IN-05: Runtime dependency on peer packages that are not declared
-
-**File:** `package.json:19-25`
-**Issue:** `vite-plugin-pwa` 1.3.0 lists `workbox-build` and `workbox-window` as peer dependencies. The built client does `import("workbox-window")`. They resolve today only because npm auto-installs peers (they are in the lockfile at about lines 6272 and 6460). A different install tool or `--legacy-peer-deps` would break the build or the registration. `npm ci` is used in CI, so it works now.
-**Fix:** Optionally add `workbox-window` and `workbox-build` (`^7.4.1`) to `devDependencies` so the dependency is explicit.
+**File:** `src/build-output.test.js:101-121,129`
+**Issue:** `icons` and `pick` are defined twice (lines 102-104 and 114-116) and the same size and purpose table is repeated. The apple-touch-icon test re-inlines the opaque predicate (`p.hasTrns || p.colorType === 4 || p.colorType === 6`) at line 129 instead of using the `opaque()` helper defined at line 45. Note also that `opaque()` rejects colorType 6 (RGBA) even when every pixel is fully opaque. That is fine today because the tests pass, but an icon tool that emits opaque RGBA would fail with a misleading "not opaque" message.
+**Fix:** Hoist `manifestIcons()` and `pick` to module scope, use `expect(opaque(p)).toBe(true)` at line 129, and say in a comment that RGBA is treated as non-opaque on purpose.
 
 ---
 
-_Reviewed: 2026-10-01_
+_Reviewed: 2026-10-02_
 _Reviewer: Claude (gsd-code-reviewer)_
 _Depth: standard_
