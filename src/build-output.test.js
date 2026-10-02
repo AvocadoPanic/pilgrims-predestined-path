@@ -42,6 +42,7 @@ const png = (file) => {
   const b = readFileSync(file);
   return { w: b.readUInt32BE(16), h: b.readUInt32BE(20), colorType: b[25], hasTrns: b.includes(Buffer.from('tRNS')) };
 };
+const opaque = (p) => !(p.hasTrns || p.colorType === 4 || p.colorType === 6);
 const fileUnderBase = (url) => join(out, decodeURIComponent(new URL(url).pathname.slice(BASE.length)));
 
 // An emergency kill-switch deploy flips this together with KILL_SWITCH in vite.config.js
@@ -109,6 +110,16 @@ describe('PWA build output', () => {
     }
   });
 
+  it('manifest icons 192, 512 and maskable are opaque', () => {
+    const icons = readManifest().icons.map((i) => ({ ...i, url: new URL(i.src, MANIFEST_URL) }));
+    const pick = (size, purpose) => icons.find((i) => i.sizes === size && (i.purpose ?? 'any') === purpose);
+    for (const [size, purpose] of [['192x192', 'any'], ['512x512', 'any'], ['512x512', 'maskable']]) {
+      const i = pick(size, purpose);
+      expect(i, `${size} ${purpose}`).toBeTruthy();
+      expect(opaque(png(fileUnderBase(i.url))), `${i.src} opaque`).toBe(true);
+    }
+  });
+
   it('index.html links a 180x180 opaque apple-touch-icon and the manifest under the base', () => {
     const html = readFileSync(join(out, 'index.html'), 'utf8');
     const href = html.match(/<link[^>]+rel="apple-touch-icon"[^>]+href="([^"]+)"/)?.[1];
@@ -130,6 +141,8 @@ describe('PWA build output', () => {
     expect(sw).toContain('precacheAndRoute');
     expect(sw).toContain('cleanupOutdatedCaches');
     expect(sw).not.toContain('registration.unregister');
+    // The prompt-mode worker legitimately carries a SKIP_WAITING message handler, so only the claim call is asserted absent.
+    expect(sw, 'worker takeover is forbidden (docs/PWA.md rule 4)').not.toContain('clientsClaim');
     const js = walk(join(out, 'assets'))
       .filter((f) => f.endsWith('.js'))
       .map((f) => readFileSync(f, 'utf8'))
