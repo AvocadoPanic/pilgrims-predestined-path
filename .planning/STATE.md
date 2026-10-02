@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 02
 current_phase_name: Installable, With Safe Updates
 status: executing
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-10-02T00:35:47.183Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-10-02T00:54:30.340Z"
 last_activity: 2026-10-01
 last_activity_desc: Phase 02 execution started
-state_head: 70d545ee51c41bc163875aab307a4524d6d9bfbf
+state_head: 048dc7ff0df6e762ea2d489a29b2edfdca9424f9
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 10
-  completed_plans: 6
+  completed_plans: 7
   percent: 14
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-09-30)
 ## Current Position
 
 Phase: 02 (Installable, With Safe Updates) — EXECUTING
-Plan: 2 of 5
+Plan: 3 of 5
 Status: Ready to execute
 Last activity: 2026-10-01 — Phase 02 execution started
 
@@ -65,6 +65,7 @@ Progress: [█░░░░░░░░░] 14%
 | Phase 01 P04 | 15min | 2 tasks | 0 files |
 | Phase 01 P05 | 5 min | 2 tasks | 0 files |
 | Phase 02 P01 | 25 min | 3 tasks | 12 files |
+| Phase 02 P02 | 12 min | 3 tasks | 13 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,8 @@ Recent decisions affecting current work:
 - [Phase 01]: Pages source switched to GitHub Actions (build_type workflow) only after the user's verbatim flip-now; deployed via workflow_dispatch run 36779326540; live site verified; no rollback needed
 - [Phase 02]: 02-01: update applied only from Start; onNeedReload reloads only on the setup screen (second-tab hazard); handoff in sessionStorage ppp:start-after-update read once and validated — A game in progress must never reload in any tab; storage on the shared origin is untrusted
 - [Phase 02]: 02-01: two-key kill switch (KILL_SWITCH in vite.config.js plus EXPECT_KILL_SWITCH in build-output.test.js) — A single accidental flip must fail CI
+- [Phase 02]: 02-02: no favicon.ico; SVG icon link covers browsers (D-11 discretion) — No success criterion needs an .ico
+- [Phase 02]: 02-02: install store never calls prompt() itself; one use per offered event; row falls back to the iOS line on iOS after use — PWA-01 prohibition and T-02-06
 
 ### Pending Todos
 
@@ -110,6 +113,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-10-02T00:35:46.940Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-10-02T00:54:30.067Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None
