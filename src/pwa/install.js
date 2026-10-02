@@ -35,7 +35,9 @@ export function createInstallStore({ target, matchMedia, nav } = {}) {
   const isStandalone = () => {
     try {
       if (matchMedia && matchMedia('(display-mode: standalone)').matches) return true;
-    } catch {}
+    } catch {
+      // matchMedia can throw in old or embedded browsers; navigator.standalone below still applies, so the worst case is showing the install row when it should be hidden.
+    }
     return nav?.standalone === true;
   };
 
@@ -60,7 +62,9 @@ export function createInstallStore({ target, matchMedia, nav } = {}) {
       try {
         const r = e.prompt();
         if (r && typeof r.catch === 'function') r.catch(() => {});
-      } catch {}
+      } catch {
+        // prompt() throws if this event was already used or the browser refuses it; held is already cleared, so the row hides until the browser fires beforeinstallprompt again.
+      }
     },
   };
 }
