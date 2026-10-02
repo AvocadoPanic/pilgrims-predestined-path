@@ -38,6 +38,11 @@ const ORIGIN = 'https://avocadopanic.github.io';
 const MANIFEST_URL = `${ORIGIN}${BASE}manifest.webmanifest`;
 const readManifest = () => JSON.parse(readFileSync(join(out, 'manifest.webmanifest'), 'utf8'));
 const underBase = (u) => u.origin === ORIGIN && u.pathname.startsWith(BASE);
+const png = (file) => {
+  const b = readFileSync(file);
+  return { w: b.readUInt32BE(16), h: b.readUInt32BE(20), colorType: b[25], hasTrns: b.includes(Buffer.from('tRNS')) };
+};
+const fileUnderBase = (url) => join(out, decodeURIComponent(new URL(url).pathname.slice(BASE.length)));
 
 // An emergency kill-switch deploy flips this together with KILL_SWITCH in vite.config.js
 // (the two-key procedure in docs/PWA.md), so a single accidental flip fails CI.
@@ -90,6 +95,29 @@ describe('PWA build output', () => {
     expect(m.background_color).toBe('#0a0608');
     expect(m.orientation).toBe('any');
     expect(m).not.toHaveProperty('screenshots');
+  });
+
+  it('manifest declares 192, 512 any and a separate 512 maskable icon at the right size', () => {
+    const icons = readManifest().icons.map((i) => ({ ...i, url: new URL(i.src, MANIFEST_URL) }));
+    for (const i of icons) expect(underBase(i.url), i.src).toBe(true);
+    const pick = (size, purpose) => icons.find((i) => i.sizes === size && (i.purpose ?? 'any') === purpose);
+    for (const [size, purpose] of [['192x192', 'any'], ['512x512', 'any'], ['512x512', 'maskable']]) {
+      const i = pick(size, purpose);
+      expect(i, `${size} ${purpose}`).toBeTruthy();
+      const p = png(fileUnderBase(i.url));
+      expect(`${p.w}x${p.h}`, i.src).toBe(size);
+    }
+  });
+
+  it('index.html links a 180x180 opaque apple-touch-icon and the manifest under the base', () => {
+    const html = readFileSync(join(out, 'index.html'), 'utf8');
+    const href = html.match(/<link[^>]+rel="apple-touch-icon"[^>]+href="([^"]+)"/)?.[1];
+    expect(href?.startsWith(BASE)).toBe(true);
+    const p = png(join(out, href.slice(BASE.length)));
+    expect([p.w, p.h]).toEqual([180, 180]);
+    expect(p.hasTrns || p.colorType === 4 || p.colorType === 6).toBe(false);
+    expect(html).toContain(`rel="manifest" href="${BASE}manifest.webmanifest"`);
+    expect(html).toContain(`name="apple-mobile-web-app-title" content="Pilgrim's Path"`);
   });
 
   it('sw.js is the real generateSW worker and registers under the base scope', () => {
