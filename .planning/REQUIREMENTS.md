@@ -20,8 +20,8 @@ Requirements for the initial release. Each maps to a roadmap phase.
 
 ### PWA
 
-- [ ] **PWA-01**: Player on Android or desktop Chromium can install the game from an Install button on the setup screen
-- [ ] **PWA-02**: Player on an iPhone sees short "Share, then Add to Home Screen" instructions on the setup screen
+- [x] **PWA-01**: Player on Android or desktop Chromium can install the game from an Install button on the setup screen
+- [x] **PWA-02**: Player on an iPhone sees short "Share, then Add to Home Screen" instructions on the setup screen
 - [ ] **PWA-03**: After the first visit, the whole game works with no network: all questions, all four translations' verses, fonts, icons and the credits panel
 - [ ] **PWA-04**: When a new version is deployed, player is offered the update on the setup or end screen, and the game never reloads during play
 - [ ] **PWA-05**: Player sees a one-time "Ready to play offline" confirmation, and external links are labeled as needing internet while offline
@@ -110,8 +110,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DEPL-03 | Phase 1 | Complete |
 | ENG-01 | Phase 3 | Pending |
 | ENG-02 | Phase 3 | Pending |
-| PWA-01 | Phase 2 | Pending |
-| PWA-02 | Phase 2 | Pending |
+| PWA-01 | Phase 2 | Complete |
+| PWA-02 | Phase 2 | Complete |
 | PWA-03 | Phase 7 | Pending |
 | PWA-04 | Phase 2 | Pending |
 | PWA-05 | Phase 7 | Pending |
