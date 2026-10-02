@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 02
 current_phase_name: Installable, With Safe Updates
 status: executing
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-10-02T00:54:30.340Z"
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-10-02T01:06:26.173Z"
 last_activity: 2026-10-01
 last_activity_desc: Phase 02 execution started
-state_head: 048dc7ff0df6e762ea2d489a29b2edfdca9424f9
+state_head: 5d1bb466ee11aa6c7cf4c96179a428c3b99d52d8
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 10
-  completed_plans: 7
+  completed_plans: 8
   percent: 14
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-09-30)
 ## Current Position
 
 Phase: 02 (Installable, With Safe Updates) — EXECUTING
-Plan: 3 of 5
+Plan: 4 of 5
 Status: Ready to execute
 Last activity: 2026-10-01 — Phase 02 execution started
 
@@ -66,6 +66,7 @@ Progress: [█░░░░░░░░░] 14%
 | Phase 01 P05 | 5 min | 2 tasks | 0 files |
 | Phase 02 P01 | 25 min | 3 tasks | 12 files |
 | Phase 02 P02 | 12 min | 3 tasks | 13 files |
+| Phase 02 P03 | 15 min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -90,6 +91,8 @@ Recent decisions affecting current work:
 - [Phase 02]: 02-01: two-key kill switch (KILL_SWITCH in vite.config.js plus EXPECT_KILL_SWITCH in build-output.test.js) — A single accidental flip must fail CI
 - [Phase 02]: 02-02: no favicon.ico; SVG icon link covers browsers (D-11 discretion) — No success criterion needs an .ico
 - [Phase 02]: 02-02: install store never calls prompt() itself; one use per offered event; row falls back to the iOS line on iOS after use — PWA-01 prohibition and T-02-06
+- [Phase 02]: 02-03: kill switch rehearsed locally only; two-key procedure and standing PWA rules recorded in docs/PWA.md — Emergency recovery must be tested before any worker ships; one-key flip fails the build test
+- [Phase 02]: 02-03: deploy.yml skips docs-only pushes, queues deploys, smoke-checks live PWA files; ci(02-03) commit is the last non-docs commit of the plan — D-17, D-18, SC5; lets 02-04 release its parent as build A and 02-05 release it as build B
 
 ### Pending Todos
 
@@ -113,6 +116,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-10-02T00:54:30.067Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-10-02T01:06:25.829Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None
