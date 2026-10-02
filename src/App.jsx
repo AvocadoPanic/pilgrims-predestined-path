@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo, useSyncExternalStore } from "react";
-import { updates } from "./pwa/store.js";
+import { updates, installs } from "./pwa/store.js";
 import { saveStartHandoff, consumeStartHandoff, clearStartHandoff } from "./pwa/startHandoff.js";
 
 /* ═══════════════════ CONSTANTS ═══════════════════ */
@@ -324,6 +324,7 @@ export default function App(){
   const lr=useRef(null);
   useEffect(()=>{if(lr.current)lr.current.scrollTop=lr.current.scrollHeight;},[log]);
   const updateWaiting=useSyncExternalStore(updates.subscribe,updates.getSnapshot,updates.getServerSnapshot);
+  const installMode=useSyncExternalStore(installs.subscribe,installs.getSnapshot,installs.getServerSnapshot);
   useEffect(()=>{updates.setSafeToReload(phase==="setup");},[phase]);
   const applyingRef=useRef(false);
 
@@ -436,6 +437,8 @@ export default function App(){
         </div>
         <button onClick={onStart} style={{padding:"11px 32px",borderRadius:"8px",background:"linear-gradient(135deg,#daa520,#c49520)",border:"none",cursor:"pointer",fontFamily:"'EB Garamond',Georgia,serif",fontSize:"14px",fontWeight:700,color:"#1a0a0a",letterSpacing:"2px",textTransform:"uppercase",boxShadow:"0 4px 12px rgba(218,165,32,0.3)"}}>Submit to Providence</button>
         {updateWaiting&&<p style={{color:"#9a8a7a",fontSize:"11px",fontStyle:"italic",margin:"10px 0 0"}}>A new version will load when you start.</p>}
+        {installMode==="prompt"&&<button onClick={installs.promptInstall} style={{marginTop:"12px",padding:"7px 20px",borderRadius:"6px",background:"rgba(218,165,32,0.15)",border:"1px solid rgba(218,165,32,0.3)",cursor:"pointer",fontFamily:"'EB Garamond',Georgia,serif",fontSize:"12px",color:"#daa520",letterSpacing:"1px"}}>Install this game</button>}
+        {installMode==="ios"&&<p style={{color:"#9a8a7a",fontSize:"11px",margin:"12px 0 0"}}>On iPhone or iPad: tap Share, then Add to Home Screen</p>}
         <p style={{color:"#6a5a4a",fontSize:"10px",margin:"18px 0 0"}}>{__BUILD_ID__}</p>
       </div>
     </div>
