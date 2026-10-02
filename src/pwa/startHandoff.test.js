@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { saveStartHandoff, clearStartHandoff, consumeStartHandoff } from './startHandoff.js';
 
 const KEY = 'ppp:start-after-update';
@@ -102,5 +102,50 @@ describe('start handoff', () => {
     expect(() => saveStartHandoff({ numP: 3 }, s, () => 1000)).not.toThrow();
     expect(() => clearStartHandoff(s)).not.toThrow();
     expect(consumeStartHandoff(s, () => 1000)).toBeNull();
+  });
+});
+
+describe('start handoff with the default storage', () => {
+  let original;
+
+  beforeEach(() => {
+    original = Object.getOwnPropertyDescriptor(globalThis, 'sessionStorage');
+  });
+
+  afterEach(() => {
+    if (original) Object.defineProperty(globalThis, 'sessionStorage', original);
+    else delete globalThis.sessionStorage;
+  });
+
+  const stubSessionStorage = (get) => {
+    Object.defineProperty(globalThis, 'sessionStorage', { get, configurable: true });
+  };
+
+  it('never throws when reading sessionStorage itself throws (storage blocked)', () => {
+    stubSessionStorage(() => {
+      throw new DOMException('The operation is insecure.', 'SecurityError');
+    });
+    expect(() => saveStartHandoff({ numP: 3 })).not.toThrow();
+    expect(() => clearStartHandoff()).not.toThrow();
+    expect(() => consumeStartHandoff()).not.toThrow();
+    expect(consumeStartHandoff()).toBeNull();
+  });
+
+  it('defaults to globalThis.sessionStorage when it can be read', () => {
+    const s = memoryStorage();
+    stubSessionStorage(() => s);
+    saveStartHandoff({ numP: 3 });
+    expect(consumeStartHandoff()).toEqual({ numP: 3 });
+    saveStartHandoff({ numP: 4 });
+    clearStartHandoff();
+    expect(consumeStartHandoff()).toBeNull();
+  });
+
+  it('returns null and never throws when there is no sessionStorage', () => {
+    stubSessionStorage(() => undefined);
+    expect(() => saveStartHandoff({ numP: 3 })).not.toThrow();
+    expect(() => clearStartHandoff()).not.toThrow();
+    expect(() => consumeStartHandoff()).not.toThrow();
+    expect(consumeStartHandoff()).toBeNull();
   });
 });
