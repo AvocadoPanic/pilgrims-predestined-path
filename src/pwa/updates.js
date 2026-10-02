@@ -48,6 +48,7 @@ export function createUpdateController({ reload, doc, now = () => Date.now() }) 
     setSafeToReload(v) {
       safeToReload = v;
     },
+    isReloading: () => false,
     apply() {
       if (pendingReload) {
         reload();
