@@ -78,7 +78,7 @@ Plans:
   4. A game in progress never reloads: if a new version arrives mid-game, play continues to the end screen, where the update is offered.
   5. The live manifest, service worker and icons load from under `/pilgrims-predestined-path/`, and a build test fails if the manifest's `scope`, `start_url` or `id` leaves that path, or if the 192, 512 or separate maskable icon or the 180x180 apple-touch-icon is missing.
 
-**Plans:** 5/5 plans executed
+**Plans:** 5/7 plans executed (2 gap-closure plans pending)
 
 Plans:
 **Wave 1**
@@ -100,6 +100,14 @@ Plans:
 **Wave 5** *(blocked on Wave 4 completion)*
 
 - [x] 02-05-PLAN.md - STOP B go-ahead, push release B under a scripted live two-deploy update check
+
+**Gap closure, wave 1**
+
+- [ ] 02-06-PLAN.md - Tracer: a storage-blocked browser opens and starts the game (CR-01); Start-with-update becomes a tested helper with a loading line, locked choices and timer cleanup (WR-01)
+
+**Gap closure, wave 2** *(blocked on 02-06 completion)*
+
+- [ ] 02-07-PLAN.md - Tracer: build test refuses clientsClaim in sw.js and transparent manifest icons (WR-02); comments on the two ignored errors in install.js (WR-03)
 
 **UI hint**: yes
 
