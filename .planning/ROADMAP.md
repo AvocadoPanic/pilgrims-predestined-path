@@ -78,7 +78,7 @@ Plans:
   4. A game in progress never reloads: if a new version arrives mid-game, play continues to the end screen, where the update is offered.
   5. The live manifest, service worker and icons load from under `/pilgrims-predestined-path/`, and a build test fails if the manifest's `scope`, `start_url` or `id` leaves that path, or if the 192, 512 or separate maskable icon or the 180x180 apple-touch-icon is missing.
 
-**Plans:** 4/5 plans executed
+**Plans:** 5/5 plans executed
 
 Plans:
 **Wave 1**
@@ -99,7 +99,7 @@ Plans:
 
 **Wave 5** *(blocked on Wave 4 completion)*
 
-- [ ] 02-05-PLAN.md - STOP B go-ahead, push release B under a scripted live two-deploy update check
+- [x] 02-05-PLAN.md - STOP B go-ahead, push release B under a scripted live two-deploy update check
 
 **UI hint**: yes
 
@@ -237,7 +237,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Live on GitHub Pages | 5/5 | Complete    | 2026-09-30 |
-| 2. Installable, With Safe Updates | 4/5 | In Progress|  |
+| 2. Installable, With Safe Updates | 5/5 | In Progress|  |
 | 3. Honest Copy on a Tested Engine | 0/TBD | Not started | - |
 | 4. Hard Questions on the Special Spaces | 0/TBD | Not started | - |
 | 5. A Question Every Third Draw | 0/TBD | Not started | - |
